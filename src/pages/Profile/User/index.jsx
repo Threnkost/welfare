@@ -14,17 +14,6 @@ import ProfileSidebar from "../../../components/ProfileSidebar";
 import { Divider, Input, TextField } from "@mui/material";
 
 
-const _Star = ({filled}) => {
-    return (
-        <FontAwesomeIcon icon={faStar} className={
-            filled
-            ? "text-orange-400"
-            : "text-slate-500"
-        } />
-    );
-}
-
-
 const User = () => {
 
     return (
