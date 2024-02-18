@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import './output.css'
+import axios from 'axios';
 
 import SignIn from './pages/SignIn'
 import Home from './pages/Home'
@@ -47,7 +48,14 @@ const router = createBrowserRouter([
 //<Home />
 //SignIn
 
+axios.defaults.baseURL = 'http://app.welfare.ws/';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+axios.defaults.withCredentials = true;
 function App() {
+
+  axios.defaults.baseURL = 'http://app.welfare.ws/';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+axios.defaults.withCredentials = true;
 
   return (
     <>
