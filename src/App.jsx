@@ -18,6 +18,8 @@ import Products from './pages/Products'
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Forgot_password from './pages/forgot_password'
+import New_password from './pages/New_password'
 
 const router = createBrowserRouter([
     {
@@ -45,7 +47,15 @@ const router = createBrowserRouter([
     {
         path: "/products",
         element: <Products />
-    }
+    },
+    {
+        path: "/forgot-password",
+        element: <Forgot_password />
+    },
+    {
+        path:"/reset-password/:token",
+        element: <New_password />
+    },
 ])
 
 //<Home />

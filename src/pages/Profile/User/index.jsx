@@ -12,9 +12,53 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faClock, faList, faHeart, faCircleDollarToSlot, faStar } from "@fortawesome/free-solid-svg-icons";
 import ProfileSidebar from "../../../components/ProfileSidebar";
 import { Divider, Input, TextField } from "@mui/material";
+import {toast} from 'react-toastify'
+import axios from 'axios'
+import { useState } from "react";
 
+const url = '/api/v1/user/update/profile';
 
 const User = () => {
+
+    const [email,setEmail] = useState("");
+    const [name,setName] = useState("");
+    const [surname,setSurname] = useState("");
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [username,setUsername] = useState("");
+
+    const token = localStorage.getItem('token');
+
+
+    const handleChange = (event) => {
+        const data = {
+            "email": email,
+            "name": name,
+            "surname": surname,
+            "phoneNumber": phoneNumber,
+            "username": username
+        };
+
+        console.log(data);
+
+
+        axios.put(url, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if(response.data.success){
+            toast.success('Your information has changed successfully!');
+            console.log(response.data);
+            }
+        else toast.error(response.data.message);
+        })
+        .catch(error => {
+            console.error('Güncelleme hatası:', error.response.data);
+        });
+
+    }
+
 
     return (
         <div className="w-screen h-screen flex flex-col">
@@ -46,14 +90,27 @@ const User = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3 mb-3">
-                            <TextField label="Name" variant="outlined" />
-                            <TextField label="Surname" variant="outlined" />
-                            <TextField className="col-span-2" label="E-mail" variant="outlined" />
-                            <TextField className="col-span-2" label="Phone Number" variant="outlined" />
+                            <TextField label="Name" variant="outlined" onChange={(event) => {
+                                setName(event.target.value);
+                            }}/>
+                            <TextField label="Surname" variant="outlined" onChange={(event) => {
+                                setSurname(event.target.value);
+                            }}/>
+                            <TextField className="col-span-1" label="Username" variant="outlined" onChange={(event) => {
+                                setUsername(event.target.value);
+                            }}/>
+                            <TextField className="col-span-1" label="Phone Number" variant="outlined" onChange={(event) => {
+                                setPhoneNumber(event.target.value);
+                            }}/>
+                            <TextField className="col-span-2" label="E-mail" variant="outlined" onChange={(event) => {
+                                setEmail(event.target.value);
+                            }}/>
+                            
                         </div>
                         <div className="flex gap-3">
                             <Button
                                 variant="contained"
+                                onClick={handleChange}
                             >
                                 Edit
                             </Button>

@@ -11,6 +11,8 @@ import { faUser, faClock, faList, faHeart, faCircleDollarToSlot } from "@fortawe
 import ProfileSidebar from "../../../components/ProfileSidebar";
 import { Divider } from "@mui/material";
 
+import axios from 'axios'
+
 
 const _Foo = () => {
     return (
