@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Button, TextField, Badge } from "@mui/material";
+import { Button, TextField, Badge, Autocomplete } from "@mui/material";
 import logo from '../../assets/logo.png';
 import { Tooltip } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useCategories, useTags } from "../../hooks/hooks";
 
 const _Input = styled.input`
     border: 1px solid #aeb6bf;
@@ -28,20 +29,6 @@ const _Button = styled.button`
 
     border-radius: 0 5px 5px 0;
 `;
-
-
-const SearchBar = () => {
-    return (
-        <div className="flex">
-            <_Input
-                placeholder="Ara..."
-            />
-            <_Button>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </_Button>
-        </div>
-    );
-}
 
 
 const _CartItem_Button = styled("button")(
@@ -86,6 +73,23 @@ const Navbar = () => {
 
     const [isCartVisible, setCartVisible] = useState(false);
 
+    const categoryOptions = [
+        "Category1",
+        "Category2",
+        "Category3"
+    ]
+
+    const tagOptions = [
+        "Tag1",
+        "Tag2",
+        "Tag3"
+    ]
+
+    
+
+    const [a, b] = useCategories();
+    const [c, d] = useTags();
+    
     return (
         <>
             <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between">
@@ -96,7 +100,29 @@ const Navbar = () => {
                         width="72"
                     />
                 </Link>
-                <SearchBar />
+                <div className="flex">
+                    <Autocomplete
+                        options={categoryOptions}
+                        renderInput={(params) => <TextField {...params} label="Category" />}
+                        sx={{
+                            width: 300
+                        }}
+                    />
+                    <Autocomplete
+                        options={tagOptions}
+                        renderInput={(params) => <TextField {...params} label="Tag" />}
+                        sx={{
+                            width: 200
+                        }}
+                    />
+                    <Tooltip title="Search">
+                        <Button
+                            variant="outlined"
+                        >
+                            <FontAwesomeIcon className="w-5 h-5" icon={faMagnifyingGlass} />
+                        </Button>
+                    </Tooltip>
+                </div>
 
                 <div className="flex gap-8">
                     <div className="flex items-center">

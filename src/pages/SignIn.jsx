@@ -20,9 +20,6 @@ const validationSchema = Yup.object({
 
 
 const SignIn = () => {
-    axios.defaults.baseURL = 'http://app.welfare.ws/';
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
-    axios.defaults.withCredentials = true;
 
     const formik = useFormik({
         initialValues: {
