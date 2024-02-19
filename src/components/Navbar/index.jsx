@@ -89,11 +89,13 @@ const Navbar = () => {
     return (
         <>
             <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between">
-                <img
-                    src={logo}
-                    alt=""
-                    width="72"
-                />
+                <Link to="/">
+                    <img
+                        src={logo}
+                        alt=""
+                        width="72"
+                    />
+                </Link>
                 <SearchBar />
 
                 <div className="flex gap-8">

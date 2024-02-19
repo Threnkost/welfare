@@ -16,6 +16,9 @@ import Orders from './pages/Profile/Orders'
 import User from './pages/Profile/User'
 import Products from './pages/Products'
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,16 +54,17 @@ const router = createBrowserRouter([
 axios.defaults.baseURL = 'http://app.welfare.ws/';
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
 axios.defaults.withCredentials = true;
+
 function App() {
 
   axios.defaults.baseURL = 'http://app.welfare.ws/';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
-axios.defaults.withCredentials = true;
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+  axios.defaults.withCredentials = true;
 
   return (
     <>
+     <ToastContainer />
      <RouterProvider router={router}>
-
      </RouterProvider>
     </>
   )

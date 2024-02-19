@@ -3,73 +3,111 @@ import styled from 'styled-components';
 import illustration from '../assets/login.png';
 import { TextField, Switch, FormGroup, FormControlLabel, Button } from '@mui/material';
 import axios from 'axios';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+
+
+const validationSchema = Yup.object({
+    email: Yup
+        .string()
+        .email("Invalid e-mail format")
+        .required("Required field"),
+    password: Yup
+        .string()
+        .required("Required field")
+})
+
 
 const SignIn = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
+    axios.defaults.baseURL = 'http://app.welfare.ws/';
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+    axios.defaults.withCredentials = true;
 
-    const handleLogin = async (e) => {
-        e.preventDefault(); // Form submit işlemini engelle
-
-        try {
-            const response = await axios.post('/api/v1/auth/login', {
-                email,
-                password,
-            });
-
-            if (response.data && response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                alert('Giriş başarılı!'); 
-            }
-        } catch (error) {
-            console.error('Giriş işlemi sırasında hata oluştu', error);
-            alert('Giriş başarısız!'); 
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema,
+        onSubmit: values => {
+            axios.post(
+                'api/v1/auth/login',
+                {
+                    email: values.email,
+                    password: values.password
+                },
+                {
+                    'Content-Type': 'application/json'
+                }
+            )
+            .then(response => {
+                //Giriş yap.
+            })
+            .catch(error => {
+                if (error.response && error.response.data && error.response.data.msg) {
+                    toast.error(error.response.data.msg, { autoClose: 1500 });
+                }
+                else {
+                    toast.error("An error occured while signing in", { autoClose: 1500 });
+                }
+            })
         }
-    };
+    });
 
     return (
         <div className="w-screen h-screen grid grid-cols-1 md:grid-cols-2 md:p-20">
-            <div className="flex flex-col justify-center p-4 gap-4">
+            <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center p-4 gap-4">
                 <h1 className="text-blue-950 font-bold text-xl md:text-3xl">
                     Welfare
                 </h1>
                 <TextField
                     variant="outlined"
-                    label="E-posta"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    name="email"
+                    label="E-mail"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
                     variant="outlined"
-                    label="Şifre"
+                    id="password"
+                    name="password"
+                    label="Password"
                     type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
                 />
+                {
+                    /*
                 <FormGroup>
                     <FormControlLabel
                         control={<Switch checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />}
                         label="Beni hatırla"
                     />
-                </FormGroup>
+                </FormGroup>   
+                    */
+                }
                 <p>Şifremi unuttum</p>
                 <Button
+                    type='submit'
                     className="text-green-500"
                     variant="outlined"
                     size="large"
-                    onClick={handleLogin}
                 >
-                    Giriş yap
+                    Sign In
                 </Button>
-            </div>
+            </form>
             <div className="flex justify-center items-center">
                 <img className="max-w-full h-auto" src={illustration} alt="" />
             </div>
         </div>
     );
 }
+
 
 export default SignIn;
