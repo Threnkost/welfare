@@ -1,6 +1,6 @@
 import { Button, ProductPaper } from "./components";
 import styled from "styled-components";
-import { Rating } from "@mui/material";
+import { Chip, Rating } from "@mui/material";
 import { Divider, Tooltip } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPlus, faShareNodes } from "@fortawesome/free-solid-svg-icons";
@@ -59,15 +59,17 @@ const _CustomButton = ({ title, render }) => {
 }
 
 
-const Product = () => {
+const Product = ({owner, title, point, description, img, tag}) => {
     return (
         <_ProductPaper>
-            <_ImageBox />
+            <img src={img} alt="" width="128" />
             <Rating value={4} readOnly />
-            <p>Lorem ipsum</p>
-            <p>Seller</p>
-            <p>99 $</p>
+            <p>{title}</p>
+            <p>{description}</p>
+            <p>{owner.username}</p>
+            <p>{point} $</p>
             <_Divider className="mt-2 mb-2" />
+            <Chip label={tag} />
             <div className="flex justify-evenly items-center w-full">
                 <_CustomButton
                     title="Sepete Ekle"

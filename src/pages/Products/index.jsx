@@ -5,6 +5,7 @@ import Product from "../../components/Product";
 import { useTags } from "../../hooks/hooks";
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 
 const _Sidebar = () => {
@@ -51,10 +52,11 @@ const _Sidebar = () => {
 
 const Products = () => {
 
+    const [products, setProducts] = useState([]);
     const tags = useTags();
 
-    const currentCategory = "Clothing";
-    const currentTag = "Coat";
+    const location = useLocation();
+    const searchParameters = new URLSearchParams(location.search);
 
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem('token')}`, // Örneğin, bir erişim belirteci
@@ -62,12 +64,20 @@ const Products = () => {
     };
 
     useEffect(() => {
+        var targetURL = `http://app.welfare.ws/api/v1/advert/filteredAdverts?category=${searchParameters.get('category')}`;
+
+        if (searchParameters.has('tag')) {
+            targetURL = `http://app.welfare.ws/api/v1/advert/filteredAdverts?category=${searchParameters.get('category')}&tag=${searchParameters.get('tag')}`;
+        }
+
         axios.get(
-            "http://app.welfare.ws/api/v1/advert/filteredAdverts?category=Clothing",
+            targetURL,
             { headers }
         )
             .then(response => {
                 console.log(response);
+                const data = response.data;
+                setProducts(data.adverts);
             })
             .catch(error => {
 
@@ -81,45 +91,11 @@ const Products = () => {
             </div>
             <_Sidebar className="col-span-1" />
             <div className="col-span-4 flex flex-wrap overflow-auto gap-4">
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
+                {
+                    products.map((item, index) =>
+                        <Product key={index} owner={item.owner} tag={item.tag} title={item.title} description={item.description} point={item.point} img={item.images[0]} />
+                    )
+                }
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ import { Tooltip } from "antd";
 import { useEffect, useState } from "react";
 
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTags } from "../../hooks/hooks";
 
 const _Input = styled.input`
@@ -69,13 +69,24 @@ const _CartItem = () => {
 }
 
 
-const Navbar = () => {
+const Navbar = ({defaultCategory, defaultTag}) => {
 
     const [isCartVisible, setCartVisible] = useState(false);
-    const [category, setCategory] = useState("");
-    const [tag, setTag] = useState("");
+    const [category, setCategory] = useState(defaultCategory ? defaultCategory : "");
+    const [tag, setTag] = useState(defaultTag ? defaultTag : "");
     const tags = useTags();
 
+    const getTargetURL = () => {
+
+        var targetURL = '/products';
+        if (category && tag) {
+            targetURL = `/products?category=${category}&tag=${tag}`;
+        }
+        else if (category) {
+            targetURL = `/products?category=${category}`;
+        }
+        return targetURL;
+    }
 
     return (
         <>
@@ -115,7 +126,9 @@ const Navbar = () => {
                         <Button
                             variant="outlined"
                         >
-                            <FontAwesomeIcon className="w-5 h-5" icon={faMagnifyingGlass} />
+                            <a href={getTargetURL()}>
+                                <FontAwesomeIcon className="w-5 h-5" icon={faMagnifyingGlass} />
+                            </a>
                         </Button>
                     </Tooltip>
                 </div>
