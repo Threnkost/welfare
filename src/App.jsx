@@ -9,8 +9,8 @@ import SignIn from './pages/SignIn'
 import Home from './pages/Home'
 
 import {
-  createBrowserRouter,
-  RouterProvider
+    createBrowserRouter,
+    RouterProvider
 } from 'react-router-dom';
 import Orders from './pages/Profile/Orders'
 import User from './pages/Profile/User'
@@ -20,32 +20,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />
-  },
-  {
-    path: "/signin",
-    element: <SignIn />
-  },
-  {
-    path: "/profile/orders",
-    element: <Orders />
-  },
-  {
-    path: "/profile/favourites"
-  },
-  {
-    path: "/profile/history"
-  },
-  {
-    path: "/profile",
-    element: <User />
-  },
-  {
-    path: "/products",
-    element: <Products />
-  }
+    {
+        path: "/",
+        element: <Home />
+    },
+    {
+        path: "/signin",
+        element: <SignIn />
+    },
+    {
+        path: "/profile/orders",
+        element: <Orders />
+    },
+    {
+        path: "/profile/favourites"
+    },
+    {
+        path: "/profile/history"
+    },
+    {
+        path: "/profile",
+        element: <User />
+    },
+    {
+        path: "/products",
+        element: <Products />
+    }
 ])
 
 //<Home />
@@ -57,17 +57,17 @@ axios.defaults.withCredentials = true;
 
 function App() {
 
-  axios.defaults.baseURL = 'http://app.welfare.ws/';
-  axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
-  axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = 'http://app.welfare.ws/';
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+    axios.defaults.withCredentials = true;
 
-  return (
-    <>
-     <ToastContainer />
-     <RouterProvider router={router}>
-     </RouterProvider>
-    </>
-  )
+    return (
+        <>
+            <ToastContainer />
+            <RouterProvider router={router}>
+            </RouterProvider>
+        </>
+    )
 }
 
 export default App

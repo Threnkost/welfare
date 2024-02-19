@@ -1,47 +1,98 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
-// Add useMemory.
-export const useCategories = () => {
-    const [state, setState] = useState([]);
-    
-    axios.get("/api/v1/categories/")
-        .then(response => {
-            var a = [];
-            response.data.data.map((value) => {
-                if (!a.includes(value.category)) {
-                    a.push(value.category);
-                }
-            });
-            console.log(a);
-        })
-        .catch(error => {
-            console.error(error.message);
-        })
-
-    return [state, setState];
-}
-
+//! Add useMemory.
 export const useTags = () => {
-    const [state, setState] = useState([]);
-    
-    axios.get("/api/v1/categories/")
-        .then(response => {
-            var a = {}
-            response.data.data.map((value) => {
-                if (!(value.category in a)) {
-                    a[value.category] = []
-                }
-                
-                a[value.category].push(value.tag)
+    const [tags, setTags] = useState({});
 
-            })
-            console.log(a);
-        })
-        .catch(error => {
-            console.error(error.message);
-        })
+    useEffect(() => {
+        setTags(
+            {
+                Hobby:[
+                    "Antiques and collectibles",
+                    "Music albums",
+                    "Magazines and newspapers",
+                    "DVD and Blu-ray movies",
+                    "Photography equipment",
+                    "Comic books",
+                    "Figurines",
+                    "Board games",
+                    "Toys",
+                    "Arts and crafts"
+                ],
+        
+                Clothing:[
+                    "Coat",
+                    "T-shirt",
+                    "Pants",
+                    "Sweater",
+                    "Shoes",
+                    "Hat",
+                    "Shorts",
+                    "Shirt",
+                    "Dress",
+                    "Jacket",
+                    "Skirt",
+                    "Gloves",
+                    "Jewelry and accessories"
+                ],
+        
+                Electronics:[
+                    "Phone",
+                    "Tablet",
+                    "Computer",
+                    "Headphones",
+                    "Radio",
+                    "Smartwatch",
+                    "Speaker",
+                    "Monitor",
+                    "Powerbank",
+                    "Keyboard",
+                    "Mouse",
+                    "Game consoles"
+                ],
+        
+                Home_Furnishings:[
+                    "Bookcase",
+                    "Desk",
+                    "Wardrobe",
+                    "Sofa",
+                    "TV stand",
+                    "Rug",
+                    "Floor lamp",
+                    "Work desk",
+                    "Dining table",
+                    "Nightstand",
+                    "Display cabinet",
+                    "Coat rack",
+                    "Curtain",
+                    "Mirror",
+                    "Kitchen table",
+                    "Chair",
+                    "Coffee table",
+                    "Bed"
+                ],
+        
+                Baby_Products:[
+                    "Baby care products (diapers etc.)",
+                    "Baby clothing",
+                    "Crib",
+                    "Stroller",
+                    "Baby toys",
+                ],
+        
+                Musical_instruments:[
+                    "Acoustic guitar",
+                    "Bass guitar",
+                    "Violin",
+                    "Drum set",
+                    "Flute",
+                    "Electric guitar"
+                ]
+            }
+        )
+    }, [])
 
-    return [state, setState];
+    return tags;
 }

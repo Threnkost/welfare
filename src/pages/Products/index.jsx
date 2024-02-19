@@ -2,6 +2,8 @@ import { InputLabel, MenuItem, Select, TextField, Chip, Autocomplete, Button } f
 import Navbar from "../../components/Navbar";
 import { Divider, Checkbox } from "antd";
 import Product from "../../components/Product";
+import { useTags } from "../../hooks/hooks";
+import { useEffect, useState } from 'react';
 
 
 const _Sidebar = () => {
@@ -47,6 +49,16 @@ const _Sidebar = () => {
 
 
 const Products = () => {
+
+    const tags = useTags();
+    
+    const currentCategory = "Clothing";
+    const currentTag      = "Coat";
+
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <div className="w-screen h-screen grid grid-cols-5">
             <div className="col-span-5">

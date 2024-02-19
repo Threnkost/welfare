@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useCategories, useTags } from "../../hooks/hooks";
+import { useTags } from "../../hooks/hooks";
 
 const _Input = styled.input`
     border: 1px solid #aeb6bf;
@@ -72,24 +72,11 @@ const _CartItem = () => {
 const Navbar = () => {
 
     const [isCartVisible, setCartVisible] = useState(false);
+    const [category, setCategory] = useState("");
+    const [tag, setTag] = useState("");
+    const tags = useTags();
 
-    const categoryOptions = [
-        "Category1",
-        "Category2",
-        "Category3"
-    ]
 
-    const tagOptions = [
-        "Tag1",
-        "Tag2",
-        "Tag3"
-    ]
-
-    
-
-    const [a, b] = useCategories();
-    const [c, d] = useTags();
-    
     return (
         <>
             <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between">
@@ -102,14 +89,23 @@ const Navbar = () => {
                 </Link>
                 <div className="flex">
                     <Autocomplete
-                        options={categoryOptions}
+                        value={category}
+                        onChange={(e, v) => {
+                            setCategory(v);
+                            setTag("");
+                        }}
+                        options={Object.keys(tags)}
                         renderInput={(params) => <TextField {...params} label="Category" />}
                         sx={{
                             width: 300
                         }}
                     />
                     <Autocomplete
-                        options={tagOptions}
+                        value={tag}
+                        onChange={(e, v) => {
+                            setTag(v);
+                        }}
+                        options={category ? tags[category] : []}
                         renderInput={(params) => <TextField {...params} label="Tag" />}
                         sx={{
                             width: 200
@@ -138,7 +134,7 @@ const Navbar = () => {
                     </p>
                     <Badge color="secondary" badgeContent={99}>
                         <button className="text-lg text-blue-950" onClick={() => setCartVisible(!isCartVisible)} >
-                            Sepetim
+                            <FontAwesomeIcon className="w-6 h-6" icon={faCartShopping} />
                         </button>
                     </Badge>
                 </div>

@@ -39,7 +39,11 @@ const SignIn = () => {
                 }
             )
             .then(response => {
-                //Giriş yap.
+                const data = response.data;
+                const { token } = data;
+                console.log(data);
+                console.log(token);
+                localStorage.setItem("token", token);
             })
             .catch(error => {
                 if (error.response && error.response.data && error.response.data.msg) {
