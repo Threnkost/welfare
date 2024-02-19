@@ -4,13 +4,14 @@ import { Divider, Checkbox } from "antd";
 import Product from "../../components/Product";
 import { useTags } from "../../hooks/hooks";
 import { useEffect, useState } from 'react';
+import axios from "axios";
 
 
 const _Sidebar = () => {
     return (
         <aside className="flex flex-col p-4 gap-4">
             <p>Category</p>
-            <Select 
+            <Select
                 id="select-input"
                 label="Category"
             >
@@ -23,25 +24,25 @@ const _Sidebar = () => {
                 <MenuItem>Other</MenuItem>
             </Select>
             <Divider />
-            <Autocomplete 
+            <Autocomplete
                 options={[
-                    {id: 1, label: "Tag1"},
-                    {id: 2, label: "Tag2"},
-                    {id: 3, label: "Tag3"},
+                    { id: 1, label: "Tag1" },
+                    { id: 2, label: "Tag2" },
+                    { id: 3, label: "Tag3" },
                 ]}
                 renderInput={(params) => <TextField {...params} label="Tags" />}
             />
-            
+
             <Button
                 variant="outlined"
             >
                 Search
             </Button>
-            
+
             <div className="w-full flex flex-wrap gap-2">
-                <Chip label="Tag1" onDelete={() => {}} />
-                <Chip label="Tag2" onDelete={() => {}} />
-                <Chip label="Tag3" onDelete={() => {}} />
+                <Chip label="Tag1" onDelete={() => { }} />
+                <Chip label="Tag2" onDelete={() => { }} />
+                <Chip label="Tag3" onDelete={() => { }} />
             </div>
         </aside>
     );
@@ -51,12 +52,26 @@ const _Sidebar = () => {
 const Products = () => {
 
     const tags = useTags();
-    
+
     const currentCategory = "Clothing";
-    const currentTag      = "Coat";
+    const currentTag = "Coat";
+
+    const headers = {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`, // Örneğin, bir erişim belirteci
+        'Content-Type': 'application/json' // İstek tipi JSON ise
+    };
 
     useEffect(() => {
-        
+        axios.get(
+            "http://app.welfare.ws/api/v1/advert/filteredAdverts?category=Clothing",
+            { headers }
+        )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+
+            })
     }, [])
 
     return (

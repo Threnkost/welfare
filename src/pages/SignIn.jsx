@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import Navbar from '../components/Navbar';
 
 
 const validationSchema = Yup.object({
@@ -23,8 +24,8 @@ const SignIn = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: ''
+            email: 'berkaysalih188@gmail.com',
+            password: '123456'
         },
         validationSchema,
         onSubmit: values => {
