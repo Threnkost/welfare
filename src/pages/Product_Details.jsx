@@ -26,8 +26,8 @@ const Product_Details = () => {
   const url = `/api/v1/advert/viewPublicAdvert/${id}`
   const token = localStorage.getItem('token');
   console.log(token);
-  const [detail,setDetail] = useState();
-  
+  const [detail,setDetail] = useState(false);
+  const [joined,setJoined] = useState(false);
 
 
 
@@ -43,10 +43,27 @@ const Product_Details = () => {
             setDetail(true);
             setParticipantCount(response.data.advertDetails.participantCount)
             if(response.data.advertDetails.status=='completed') setWinner(response.data.advertDetails.winner); 
+
         }
-    })
+    }).catch(error => {
+      console.error('urun kullaniciya ait degil', error.data.message);
+    });
 
 
+    if(!detail){
+      axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
+        headers: {
+          'Authorization': `Bearer ${token}` 
+        }
+      })
+      .then(response => {
+        response.data.adverts.forEach((advert) => {
+          if(advert._id==id) setJoined(true);
+        })
+      }).catch(error => {
+        console.error('uyenin cekilislerine bakamadim', error.message);
+      });
+    }
 
 
 
@@ -58,6 +75,8 @@ const Product_Details = () => {
     .then(response => {
         if (response.data.success) {
 
+          
+          
           setCat(response.data.advert.category + "/" + response.data.advert.tag);
           setHeading(response.data.advert.title);
           setCity(response.data.advert.city);
@@ -195,8 +214,8 @@ const Product_Details = () => {
         <div className="col-span-1   p-4">
           <Carousel>
             {
-              images.map((s) => (
-                <img src={s} />
+              images.map((s,key) => (
+                <img src={s} key={key} />
               ))
             }
           </Carousel>
