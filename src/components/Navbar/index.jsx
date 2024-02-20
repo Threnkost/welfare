@@ -1,14 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart, faKey, faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Button, TextField, Badge, Autocomplete } from "@mui/material";
 import logo from '../../assets/logo.png';
 import { Tooltip } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useTags } from "../../hooks/hooks";
+import { signOut } from "../../redux/slices/user";
 
 const _Input = styled.input`
     border: 1px solid #aeb6bf;
@@ -77,6 +78,10 @@ const Navbar = ({ defaultCategory, defaultTag }) => {
     const [tag, setTag] = useState(defaultTag ? defaultTag : "");
     const tags = useTags();
 
+    const navigate     = useNavigate();
+    const userData     = useSelector(state => state.user);
+    const userDispatch = useDispatch();
+
     const getTargetURL = () => {
 
         var targetURL = '/products';
@@ -144,13 +149,25 @@ const Navbar = ({ defaultCategory, defaultTag }) => {
 
                 <div className="flex gap-4 items-center">
                     {
-                        localStorage.getItem('isAuthenticated')
+                        userData.isAuthenticated
                             ? (
-                                <Tooltip title="Profile">
-                                    <Link to="/profile">
-                                        <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faUser} />
-                                    </Link>
-                                </Tooltip>
+                                <>
+                                    <Tooltip title="Profile">
+                                        <Link to="/profile">
+                                            <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faUser} />
+                                        </Link>
+                                    </Tooltip>
+
+                                    <Tooltip title="Sign out">
+                                        <button onClick={() => {
+                                            userDispatch(signOut())
+                                            navigate('/');
+                                        }}>
+                                            <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faRightFromBracket} />
+                                        </button>
+                                        
+                                    </Tooltip>
+                                </>
                             )
                             : (
                                 <Tooltip title="Sign in">

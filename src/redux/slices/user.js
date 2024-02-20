@@ -13,6 +13,7 @@ export const userSlice = createSlice(
             city: '',
             location: '',
             points: 0,
+            isAuthenticated: false
         },
         reducers: {
             init: (state, action) => {
@@ -26,10 +27,19 @@ export const userSlice = createSlice(
                 state.city        = payload.city;
                 state.location    = payload.location;
                 state.points      = payload.points;
+
+                state.isAuthenticated = true;
+
+                localStorage.setItem('isAuthenticated', true);
+            },
+
+            signOut: (state) => {
+                state.isAuthenticated = false;
+                localStorage.setItem('isAuthenticated', false);
             }
         }
     }
 );
 
-export const { init } = userSlice.actions;
+export const { init, signOut } = userSlice.actions;
 export default userSlice.reducer;
