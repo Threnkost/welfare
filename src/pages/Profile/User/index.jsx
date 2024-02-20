@@ -28,7 +28,7 @@ const User = () => {
     const [username,setUsername] = useState("");
 
     const userData = useSelector(state => state.user);
-
+    console.log(userData);
     useEffect(() => {
         
       
