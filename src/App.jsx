@@ -20,6 +20,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Forgot_password from './pages/forgot_password'
 import New_password from './pages/New_password'
+import {Provider} from 'react-redux';
+import store from './redux/store'
 
 const router = createBrowserRouter([
     {
@@ -72,11 +74,11 @@ function App() {
     axios.defaults.withCredentials = true;
 
     return (
-        <>
+        <Provider store={store}>
             <ToastContainer />
             <RouterProvider router={router}>
             </RouterProvider>
-        </>
+        </Provider>
     )
 }
 
