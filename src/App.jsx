@@ -24,7 +24,7 @@ import {Provider} from 'react-redux';
 import store from './redux/store'
 import Product_Details from './pages/Product_Details'
 import UserPage from './pages/User'
-import { endpoints } from './Constants/endpoints'
+import endpoints from './Constants/endpoints'
 
 const router = createBrowserRouter([
     {
