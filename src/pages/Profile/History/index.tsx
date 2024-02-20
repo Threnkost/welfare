@@ -23,7 +23,10 @@ interface _ItemProps {
     points: number;
     seller: string;
     status: string;
+    
 }
+
+
 
 
 const _Item = (props: _ItemProps) => {
@@ -52,9 +55,18 @@ const _Item = (props: _ItemProps) => {
             <div className="flex flex-col h-full justify-between p-2">
                 <p className="font-bold text-xl text-blue-950">Status</p>
                 <div className="flex">
-                    <Chip label="Won!" color="success" />
-                    <Chip label="Lost" color="error" />
-                    <Chip label="Pending" color="warning" />
+                    {
+                        props.status=='active'?(
+                            <Chip label="Pending" color="warning" />
+                        ):(
+                            props.status=='won'?(
+                                <Chip label="Won!" color="success" />
+                            ):(
+                                <Chip label="Lost" color="error" />
+                            )
+                        )
+                    }
+                    
                 </div>
             </div>
 
@@ -65,7 +77,35 @@ const _Item = (props: _ItemProps) => {
 
 const History = () => {
 
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
+    const [adverts,setAdverts] = useState([]);
+    const token = localStorage.getItem('token');
+    
+
+    useEffect(() => {
+      
+        axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
+            headers: {
+              'Authorization': `Bearer ${token}` 
+            }
+          })
+          .then(response => {
+            console.log(response);
+             setAdverts(response.data.adverts)
+                setIsEmpty(false);
+            
+
+           
+          }).catch(error => {
+            console.log(error.response.data.message);
+          });
+          
+    }, [])
+
+   
+    
+
+    
 
     return (
         <div className="w-screen h-screen flex flex-col overflow-hidden">
@@ -92,13 +132,25 @@ const History = () => {
                             )
                             : (
                                 <div className="flex flex-col w-full items-center gap-3 overflow-auto mb-20">
-                                    <_Item
-                                        title="ürün"
-                                        seller="alper"
-                                        date="01-01-1970"
-                                        points={100}
-                                        status="PENDING"
+                                    {adverts.map((dt,key) => (
+                                        <_Item
+                                        title={dt.title}
+                                        seller={dt.owner}
+                                        date={dt.deadTime}
+                                        points={dt.point}
+                                        status={
+                                            dt.status=='completed' ? (
+                                                dt.winner==localStorage.getItem("username")?(
+                                                    "won"
+                                                ):(
+                                                    "lost"
+                                                )
+                                            ):(
+                                                "active"
+                                            )
+                                        }
                                     />
+                                    ))}
                                 </div>
                             )
                     }
