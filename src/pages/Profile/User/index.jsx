@@ -49,7 +49,21 @@ const User = () => {
 
         console.log(data);
 
-
+        axios.put(url, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if(response.data.success){
+            toast.success('Your information has changed successfully!');
+            console.log(response.data);
+            }
+        else toast.error(response.data.message);
+        })
+        .catch(error => {
+            console.error('Güncelleme hatası:', error.response.data);
+        });
        
 
     }
