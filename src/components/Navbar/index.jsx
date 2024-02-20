@@ -131,10 +131,11 @@ const Navbar = () => {
                     <Tooltip title="Search">
                         <Button
                             variant="outlined"
+                            onClick={() => {
+                                navigate(getTargetURL())
+                            }}
                         >
-                            <a href={getTargetURL()}>
-                                <FontAwesomeIcon className="w-5 h-5" icon={faMagnifyingGlass} />
-                            </a>
+                            <FontAwesomeIcon className="w-5 h-5" icon={faMagnifyingGlass} />
                         </Button>
                     </Tooltip>
                 </div>

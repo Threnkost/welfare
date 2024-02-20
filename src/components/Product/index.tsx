@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { HTTPMethods } from "../../Constants/methods";
 import endpoints from "../../Constants/endpoints";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const _ProductPaper = styled("div")(
 	(props) => `
@@ -71,6 +72,7 @@ interface ProductProps {
 	description: string;
 	img: string;
 	tag: string;
+	fav?: boolean;
 }
 
 const Product = (props: ProductProps) => {
@@ -120,6 +122,34 @@ const Product = (props: ProductProps) => {
 				<Button variant="outlined" fullWidth onClick={handleJoin}>
 					Join
 				</Button>
+				{!props.fav ? (
+					<Button
+						variant="outlined"
+						fullWidth
+						onClick={() => {
+							axios
+								.post(
+									`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
+									{},
+									{
+										headers: {
+											Authorization: `Bearer ${localStorage.getItem(
+												"token"
+											)}`,
+										},
+									}
+								)
+								.then((response) => {
+									toast.success(response.data.message);
+								})
+								.catch((error) => {
+									toast.error(error.response.data.message);
+								});
+						}}
+					>
+						Fav
+					</Button>
+				) : null}
 			</div>
 			<Chip label={props.tag} />
 		</_ProductPaper>

@@ -52,6 +52,10 @@ const _Sidebar = () => {
 
 const Products = () => {
 
+    axios.defaults.baseURL = 'http://app.welfare.ws/';
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://app.welfare.ws/';
+    axios.defaults.withCredentials = true;
+
     const [products, setProducts] = useState([]);
     const tags = useTags();
 
