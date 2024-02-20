@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState } from 'react';
 
 
+<<<<<<< HEAD
 export const usePendingAdverts = () => {
 
   const token = localStorage.getItem("token");
@@ -25,3 +26,26 @@ export const usePendingAdverts = () => {
 
   return adverts;
 }
+=======
+    const token = localStorage.getItem("token");
+    
+
+     axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
+            headers: {
+              'Authorization': `Bearer ${token}` 
+            }
+          })
+          .then(response => {
+            return response.data.adverts.filter((dt) => (
+                dt.status=="active"
+            ))
+          }).catch(error => {
+            return [];
+          });
+
+    
+  
+}
+
+export default pendingAdverts
+>>>>>>> e7d7331f9afaf5cf340b3ab6992a3d868612cc2f

@@ -115,3 +115,25 @@ export const useUser = () => {
 
     return userData;
 }
+
+export const pendingAdverts = () => {
+
+    const token = localStorage.getItem("token");
+    const [adverts,setAdverts] = useState([]);
+
+     axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
+            headers: {
+              'Authorization': `Bearer ${token}` 
+            }
+          })
+          .then(response => {
+             setAdverts(response.data.adverts.filter((dt) => (
+                dt.status=="active"
+            )))
+          }).catch(error => {
+            return [];
+          });
+
+    
+  
+}
