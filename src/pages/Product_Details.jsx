@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { CiLocationOn } from "react-icons/ci"
 import Navbar from '../components/Navbar';
 import Carousel from '../components/Carousel';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
+import Button from '@mui/material/Button'
+import { toast } from 'react-toastify';
+import coin from '../assets/token.png'
+
 
 
 const Product_Details = () => {
@@ -18,7 +22,7 @@ const Product_Details = () => {
   const [city, setCity] = useState("");
   const [participantCount,setParticipantCount] = useState();
   const [participants,setParticipants] = useState([]);
-  const [winner,setWinner] = useState("");
+  const [winner,setWinner] = useState();
   const { id } = useParams();
 
   console.log(id);
@@ -43,11 +47,9 @@ const Product_Details = () => {
             setDetail(true);
             setParticipantCount(response.data.advertDetails.participantCount)
             if(response.data.advertDetails.status=='completed') setWinner(response.data.advertDetails.winner); 
-
+            console.log(response)
         }
-    }).catch(error => {
-      console.error('urun kullaniciya ait degil', error.data.message);
-    });
+    })
 
 
     if(!detail){
@@ -60,9 +62,8 @@ const Product_Details = () => {
         response.data.adverts.forEach((advert) => {
           if(advert._id==id) setJoined(true);
         })
-      }).catch(error => {
-        console.error('uyenin cekilislerine bakamadim', error.message);
-      });
+        console.log(response);
+      })
     }
 
 
@@ -75,8 +76,10 @@ const Product_Details = () => {
     .then(response => {
         if (response.data.success) {
 
+          console.log(response);
           
-          
+          setName(response.data.advert.owner);
+          setPrice(response.data.advert.point);
           setCat(response.data.advert.category + "/" + response.data.advert.tag);
           setHeading(response.data.advert.title);
           setCity(response.data.advert.city);
@@ -182,6 +185,9 @@ const Product_Details = () => {
   border-radius: 5px;
   border: 1px solid #eee;
   background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
   const LocationDetails = styled.div`
  width: 100%;
@@ -191,7 +197,7 @@ const Product_Details = () => {
 
 `
 
-  const Button = styled.button`
+  const _Button = styled.button`
   width: 100%;
   font-size: 1.4rem;
   font-weight: 600;
@@ -204,7 +210,47 @@ const Product_Details = () => {
   outline: none;
   cursor: pointer;
   
-`
+` 
+  const navigate = useNavigate();
+
+
+  const editProd = (event) => {
+    navigate(`/edit/${id}`)
+  }
+
+  const finishAdvert = (event) => {
+    axios.post(`/api/v1/advert/performDraw/${id}`
+    ).then(response => {
+      if(response.data.success) toast.done(response.data.message);
+      else toast.error(response.data.message);
+    }).catch(error => {
+      toast.error(error.response.data.message);
+    });
+  }
+
+  const joinAdvert = (event) => {
+    axios.post(`/api/v1/advert/join/${id}`,{}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      if(response.data.success) toast.done(response.data.message);
+      else toast.error(response.data.message);
+    }).catch(error => {
+      toast.error(error.response.data.message);
+    });
+  }
+
+  const quitAdvert = (event) => {
+    axios.delete(`/api/v1/advert/withdraw/${id}`
+    ).then(response => {
+      if(response.data.success) toast.info(toast.data.message);
+      else toast.error(response.data.message);
+    }).catch(error => {
+      toast.error(error.response.data.message);
+    });
+  }
+ 
 
 
   return (
@@ -237,10 +283,39 @@ const Product_Details = () => {
           </DealerDetails>
           <ProductInformation>{description}
           </ProductInformation>
-          <PriceBox>{price} ₺</PriceBox>
+          <PriceBox>{price}  <img src={coin} className=' w-auto h-6'/></PriceBox>
           <LocationDetails></LocationDetails>
-          <Button>Satıcıyı Görüntüle</Button>
-          <Button>Sepete Ekle</Button>
+          {
+            winner==undefined?(
+              
+                detail ? (
+                  <>
+                  <_Button onClick={editProd}>Edit</_Button>
+                  <_Button onClick={finishAdvert}>Finish the Advert</_Button>
+                  </>
+                ):(
+
+                  joined?(
+                    <>
+                    <Button variant="text" disabled color="default">
+                      You have already joined
+                    </Button>
+                    <_Button onClick={quitAdvert}>Withdraw from Advert</_Button>
+                    </>
+                  ):(
+                    <_Button onClick={joinAdvert}>Join Advert!</_Button>
+                  )
+
+                )
+              
+            ):(
+              <Button variant="text" disabled color="default">
+              You have already joined
+            </Button>
+            )
+
+          }  
+          
         </Details>
       </Product>
     </>
