@@ -24,7 +24,11 @@ const New_password = () => {
             const response = axios.post(`/api/v1/auth/reset-password/${token}`, {
               password,
               confirmPassword,
-            }); 
+            },
+            {
+              'Content-Type': 'application/json'
+            }
+            ); 
 
             if(response.data) toast.success(response.data.message);
           } catch (error) {
