@@ -177,16 +177,7 @@ const Home = () => {
                 </h1>
                 <Divider />
                 <div className="flex gap-4 items-center justify-between">
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
+
                     <Button
                         variant="outlined"
                     >
@@ -199,16 +190,7 @@ const Home = () => {
                 </h1>
                 <Divider />
                 <div className="flex gap-4 items-center justify-between">
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
-                    <Product />
+
                     <Button
                         variant="outlined"
                     >
