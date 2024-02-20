@@ -22,6 +22,7 @@ import Forgot_password from './pages/forgot_password'
 import New_password from './pages/New_password'
 import {Provider} from 'react-redux';
 import store from './redux/store'
+import Product_Details from './pages/Product_Details'
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
         path:"/reset-password/:token",
         element: <New_password />
     },
+    {
+        path:"/product/:id",
+        element: <Product_Details />
+    }
 ])
 
 //<Home />
