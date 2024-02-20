@@ -45,47 +45,49 @@ const SignIn = () => {
                     'Content-Type': 'application/json'
                 }
             )
-            .then(response => {
-                const data = response.data;
-                const { token } = data;
-                console.log(data);
-                console.log(token);
-                localStorage.setItem("token", token);
+                .then(response => {
+                    const data = response.data;
+                    const { token } = data;
+                    console.log(data);
+                    console.log(token);
+                    localStorage.setItem("token", token);
 
-                console.log(data.user);
+                    console.log(data.user);
 
-                dispatch(init({
-                    email: data.user.email,
-                    name:  data.user.name,
-                    username: data.user.username,
-                    surname: data.user.surname,
-                    points: data.user.points,
-                    location: data.user.location,
-                    phoneNumber: data.user.phoneNumber,
-                    city: data.user.city,
-                }))
+                    dispatch(init({
+                        email: data.user.email,
+                        name: data.user.name,
+                        username: data.user.username,
+                        surname: data.user.surname,
+                        points: data.user.points,
+                        location: data.user.location,
+                        phoneNumber: data.user.phoneNumber,
+                        city: data.user.city,
+                    }))
 
-                localStorage.setItem('email', data.user.email)
-                localStorage.setItem('name', data.user.name)
-                localStorage.setItem('username', data.user.username)
-                localStorage.setItem('surname', data.user.surname)
-                localStorage.setItem('points', data.user.points)
-                localStorage.setItem('location', data.user.location)
-                localStorage.setItem('phoneNumber', data.user.phoneNumber)
-                localStorage.setItem('city', data.user.city)
+                    localStorage.setItem('email', data.user.email)
+                    localStorage.setItem('name', data.user.name)
+                    localStorage.setItem('username', data.user.username)
+                    localStorage.setItem('surname', data.user.surname)
+                    localStorage.setItem('points', data.user.points)
+                    localStorage.setItem('location', data.user.location)
+                    localStorage.setItem('phoneNumber', data.user.phoneNumber)
+                    localStorage.setItem('city', data.user.city)
 
-                navigate('/');
-            })
-            .catch(error => {
-                if (error.response && error.response.data && error.response.data.msg) {
-                    toast.error(error.response.data.msg, { autoClose: 1500 });
-                }
-                else {
-                    toast.error("An error occured while signing in", { autoClose: 1500 });
-                }
-            })
+                    localStorage.setItem('isAuthenticated', true);
 
-            
+                    navigate('/');
+                })
+                .catch(error => {
+                    if (error.response && error.response.data && error.response.data.msg) {
+                        toast.error(error.response.data.msg, { autoClose: 1500 });
+                    }
+                    else {
+                        toast.error("An error occured while signing in", { autoClose: 1500 });
+                    }
+                })
+
+
         }
     });
 

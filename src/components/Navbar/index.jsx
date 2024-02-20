@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Button, TextField, Badge, Autocomplete } from "@mui/material";
 import logo from '../../assets/logo.png';
 import { Tooltip } from "antd";
@@ -70,7 +70,7 @@ const _CartItem = () => {
 }
 
 
-const Navbar = ({defaultCategory, defaultTag}) => {
+const Navbar = ({ defaultCategory, defaultTag }) => {
 
     const [isCartVisible, setCartVisible] = useState(false);
     const [category, setCategory] = useState(defaultCategory ? defaultCategory : "");
@@ -142,15 +142,27 @@ const Navbar = ({defaultCategory, defaultTag}) => {
                     <p className="text-lg text-blue-950">Hakkımızda</p>
                 </div>
 
-                <div className="flex gap-4">
-                    <p className="text-lg text-blue-950">
-                        <Link to="/profile">Profil</Link>
-                    </p>
-                    <p className="text-lg text-blue-950">
-                        <Link to="/signin">Giriş yap</Link>
-                    </p>
+                <div className="flex gap-4 items-center">
+                    {
+                        localStorage.getItem('isAuthenticated')
+                            ? (
+                                <Tooltip title="Profile">
+                                    <Link to="/profile">
+                                        <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faUser} />
+                                    </Link>
+                                </Tooltip>
+                            )
+                            : (
+                                <Tooltip title="Sign in">
+                                    <Link to="/signin">
+                                        <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faKey} />
+                                    </Link>
+                                </Tooltip>
+                            )
+                    }
+
                     <Badge color="secondary" badgeContent={99}>
-                        <button className="text-lg text-blue-950" onClick={() => setCartVisible(!isCartVisible)} >
+                        <button className="text-lg text-blue-900" onClick={() => setCartVisible(!isCartVisible)} >
                             <FontAwesomeIcon className="w-6 h-6" icon={faCartShopping} />
                         </button>
                     </Badge>
