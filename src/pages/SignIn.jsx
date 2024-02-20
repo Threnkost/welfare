@@ -66,7 +66,6 @@ const SignIn = () => {
                 }))
 
                 navigate('/');
-
             })
             .catch(error => {
                 if (error.response && error.response.data && error.response.data.msg) {

@@ -144,6 +144,9 @@ const Navbar = ({defaultCategory, defaultTag}) => {
 
                 <div className="flex gap-4">
                     <p className="text-lg text-blue-950">
+                        <Link to="/profile">Profil</Link>
+                    </p>
+                    <p className="text-lg text-blue-950">
                         <Link to="/signin">Giriş yap</Link>
                     </p>
                     <Badge color="secondary" badgeContent={99}>
