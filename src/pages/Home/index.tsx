@@ -76,14 +76,17 @@ const Product_Foo_Button = styled.button`
 	align-items: center;
 `;
 
-
 interface _FeaturedProps {
-    title: string;
-    
+    id: string;
+	title: string;
+	seller: string;
+	point: number;
 }
 
-
 const _Featured = (props: _FeaturedProps) => {
+
+    const navigate = useNavigate();
+
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex justify-between w-full">
@@ -96,10 +99,12 @@ const _Featured = (props: _FeaturedProps) => {
 
 			<div className="bg-white rounded flex flex-col p-4 items-center gap-2">
 				<div className="w-24 h-24 border border-black rounded "></div>
-				<p>Product</p>
-				<p>Seller</p>
-				<p>Point</p>
-				<Button variant="outlined" fullWidth>
+				<p>{props.title}</p>
+				<p>{props.seller}</p>
+				<p>{props.point}</p>
+				<Button variant="outlined" fullWidth onClick={() => {
+                    navigate(`/product/${props.id}`)
+                }}>
 					View
 				</Button>
 			</div>
@@ -107,7 +112,7 @@ const _Featured = (props: _FeaturedProps) => {
 	);
 };
 
-const _Slider = (props: { page: any }) => {
+const _Slider = (props: { page: any; featured: any }) => {
 	const [width, setWidth] = useState<number>(1);
 	const [height, setHeight] = useState<number>(1);
 
@@ -118,6 +123,7 @@ const _Slider = (props: { page: any }) => {
 			setWidth(ref.current.offsetWidth);
 			setHeight(ref.current.offsetHeight);
 		}
+        console.log("slider ", props.featured)
 	}, []);
 
 	return (
@@ -135,8 +141,18 @@ const _Slider = (props: { page: any }) => {
 					}}
 					className="absolute flex items-center justify-center bg-red-200 gap-10"
 				>
-					<_Featured />
-					<_Featured />
+					<_Featured
+                        id={props.featured[0]._id}
+						title={props.featured[0].title}
+						seller={props.featured[0].seller}
+						point={props.featured[0].point}
+					/>
+					<_Featured
+                        id={props.featured[1]._id}
+						title={props.featured[1].title}
+						seller={props.featured[1].seller}
+						point={props.featured[1].point}
+					/>
 				</div>
 				<div
 					style={{
@@ -147,8 +163,18 @@ const _Slider = (props: { page: any }) => {
 					}}
 					className="absolute flex items-center justify-center bg-blue-200 gap-10"
 				>
-					<_Featured />
-					<_Featured />
+					<_Featured
+                        id={props.featured[2]._id}
+						title={props.featured[2].title}
+						seller={props.featured[2].seller}
+						point={props.featured[2].point}
+					/>
+					<_Featured
+                        id={props.featured[3]._id}
+						title={props.featured[3].title}
+						seller={props.featured[3].seller}
+						point={props.featured[3].point}
+					/>
 				</div>
 				<div
 					style={{
@@ -159,8 +185,18 @@ const _Slider = (props: { page: any }) => {
 					}}
 					className="absolute flex items-center justify-center bg-green-200 gap-10"
 				>
-					<_Featured />
-					<_Featured />
+					<_Featured
+                        id={props.featured[4]._id}
+						title={props.featured[4].title}
+						seller={props.featured[4].seller}
+						point={props.featured[4].point}
+					/>
+					<_Featured
+                        id={props.featured[5]._id}
+						title={props.featured[5].title}
+						seller={props.featured[5].seller}
+						point={props.featured[5].point}
+					/>
 				</div>
 			</div>
 		</div>
@@ -171,9 +207,12 @@ const Home = () => {
 	const [page, setPage] = useState<number>(0);
 	const [adverts, setAdverts] = useState<Array<any>>([]);
 	const [favourites, setFavourites] = useState<Array<any>>([]);
+	const [featured, setFeatured] = useState<Array<any>>([]);
 
-    //! Refactor it later, Fix it.
-    const [pending, setPending] = useState<Array<any>>([]);
+	//! Refactor it later, Fix it.
+	const [pending, setPending] = useState<Array<any>>([]);
+
+    console.log(featured);
 
 	useEffect(() => {
 		axios
@@ -186,6 +225,8 @@ const Home = () => {
 				console.log(response);
 				const data = response.data;
 				setAdverts(data.adverts);
+                console.log("slice", data.adverts.slice(0, 6));
+				setFeatured(data.adverts.slice(0, 6));
 			})
 			.catch((error) => {
 				console.log(error);
@@ -209,12 +250,13 @@ const Home = () => {
 		axios
 			.get("/api/v1/advert/advertStatus/participatedAdverts", {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},
 			})
 			.then((response) => {
 				response.data.adverts.forEach((dt: any, key) => {
-					if (dt.status == "active") setPending(prev => [...prev, dt])
+					if (dt.status == "active")
+						setPending((prev) => [...prev, dt]);
 				});
 			})
 			.catch((error) => {
@@ -234,7 +276,13 @@ const Home = () => {
 						>
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
-						<_Slider page={page} />
+                        {/*<_Slider featured={featured} page={page} /> */}
+                        {
+                            featured.length > 0
+                            ? <_Slider featured={featured} page={page} />
+                            : null
+                        }
+						
 						<Button
 							variant="outlined"
 							onClick={() => setPage(page + 1)}
