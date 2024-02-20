@@ -23,11 +23,11 @@ const url = '/api/v1/user/update/profile';
 
 const _User = () => {
 
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
+    const [email, setEmail]             = useState("");
+    const [name, setName]               = useState("");
+    const [surname, setSurname]         = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [username, setUsername] = useState("");
+    const [username, setUsername]       = useState("");
 
     const userData = useUser();
     console.log(userData);

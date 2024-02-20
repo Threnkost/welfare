@@ -23,6 +23,8 @@ import New_password from './pages/New_password'
 import {Provider} from 'react-redux';
 import store from './redux/store'
 import Product_Details from './pages/Product_Details'
+import UserPage from './pages/User'
+import { endpoints } from './Constants/endpoints'
 
 const router = createBrowserRouter([
     {
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
     {
         path:"/product/:id",
         element: <Product_Details />
+    },
+    {
+        path: "/user/:id",
+        element: <UserPage />
     }
 ])
 
