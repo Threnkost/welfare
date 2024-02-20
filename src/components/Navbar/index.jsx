@@ -78,8 +78,8 @@ const Navbar = ({ defaultCategory, defaultTag }) => {
     const [tag, setTag] = useState(defaultTag ? defaultTag : "");
     const tags = useTags();
 
-    const navigate     = useNavigate();
-    const userData     = useSelector(state => state.user);
+    const navigate = useNavigate();
+    const userData = useSelector(state => state.user);
     const userDispatch = useDispatch();
 
     const getTargetURL = () => {
@@ -165,7 +165,7 @@ const Navbar = ({ defaultCategory, defaultTag }) => {
                                         }}>
                                             <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faRightFromBracket} />
                                         </button>
-                                        
+
                                     </Tooltip>
                                 </>
                             )

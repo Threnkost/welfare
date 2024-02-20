@@ -1,21 +1,14 @@
 import { Button, Rating } from "@mui/material";
 import Navbar from "../../../components/Navbar";
 
-import illustration1 from '../../../assets/DrawKit Vector Illustration Black Friday & Online Shopping (3).png';
 import illustration2 from '../../../assets/DrawKit Vector Illustration Black Friday & Online Shopping (10).png'
 import illustration3 from '../../../assets/avatar.png';
-import token from '../../../assets/token.png';
-import wave from '../../../assets/wave.png';
-import { Table } from "antd";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faClock, faList, faHeart, faCircleDollarToSlot, faStar } from "@fortawesome/free-solid-svg-icons";
 import ProfileSidebar from "../../../components/ProfileSidebar";
-import { Divider, Input, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useUser } from "../../../hooks/hooks";
 import { withAuthProtectionRedirect } from "../../../hoc/Authorization";
 const url = '/api/v1/user/update/profile';

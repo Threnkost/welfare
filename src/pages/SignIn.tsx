@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
 import illustration from '../assets/login.png';
-import { TextField, Switch, FormGroup, FormControlLabel, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import Navbar from '../components/Navbar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { init } from '../redux/slices/user';
 import { useNavigate } from 'react-router-dom';
+import { HTTPMethods } from '../Constants/methods';
+import endpoints from '../Constants/endpoints';
 
 
 const validationSchema = Yup.object({
@@ -35,8 +34,9 @@ const SignIn = () => {
         },
         validationSchema,
         onSubmit: values => {
-            axios.post(
-                'api/v1/auth/login',
+            
+            HTTPMethods.SignIn(
+                endpoints.Auth.SignIn, 
                 {
                     email: values.email,
                     password: values.password
@@ -45,14 +45,11 @@ const SignIn = () => {
                     'Content-Type': 'application/json'
                 }
             )
-                .then(response => {
+                .then((response: any) => {
                     const data = response.data;
                     const { token } = data;
-                    console.log(data);
-                    console.log(token);
-                    localStorage.setItem("token", token);
 
-                    console.log(data.user);
+                    localStorage.setItem("token", token);
 
                     dispatch(init({
                         email: data.user.email,
@@ -74,11 +71,11 @@ const SignIn = () => {
                     localStorage.setItem('phoneNumber', data.user.phoneNumber)
                     localStorage.setItem('city', data.user.city)
 
-                    localStorage.setItem('isAuthenticated', true);
+                    localStorage.setItem('isAuthenticated', "true");
 
                     navigate('/');
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     if (error.response && error.response.data && error.response.data.msg) {
                         toast.error(error.response.data.msg, { autoClose: 1500 });
                     }
@@ -118,17 +115,8 @@ const SignIn = () => {
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
                 />
-                {
-                    /*
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Switch checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />}
-                        label="Beni hatırla"
-                    />
-                </FormGroup>   
-                    */
-                }
-                <p>Şifremi unuttum</p>
+                
+                <p className="font-bold text-md text-blue-900 cursor-pointer">Forgot password?</p>
                 <Button
                     type='submit'
                     className="text-green-500"

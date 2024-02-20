@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+//! Bug var!
 export const withAuthProtectionRedirect = (WrappedComponent) => {
 
     const AuthProtectedComponent = (props) => {
@@ -8,8 +9,8 @@ export const withAuthProtectionRedirect = (WrappedComponent) => {
         const navigate = useNavigate();
         
         useEffect(() => {
-            if (!localStorage.getItem('isAuthenticated')) {
-                navigate('/signin')
+            if (localStorage.getItem('isAuthenticated') !== "true") {
+                navigate('/signin');
             }
         }, [])
 
