@@ -16,6 +16,9 @@ const Product_Details = () => {
   const [price, setPrice] = useState();
   const [images, setImages] = useState([]);
   const [city, setCity] = useState("");
+  const [participantCount,setParticipantCount] = useState();
+  const [participants,setParticipants] = useState([]);
+  const [winner,setWinner] = useState("");
   const { id } = useParams();
 
   console.log(id);
@@ -23,10 +26,30 @@ const Product_Details = () => {
   const url = `/api/v1/advert/viewPublicAdvert/${id}`
   const token = localStorage.getItem('token');
   console.log(token);
+  const [detail,setDetail] = useState();
+  
 
 
 
   useEffect(() => {
+
+    axios.get(`/api/v1/advert/advertDetails/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}` 
+      }
+    })
+    .then(response => {
+        if(response.data.success){
+            setDetail(true);
+            setParticipantCount(response.data.advertDetails.participantCount)
+            if(response.data.advertDetails.status=='completed') setWinner(response.data.advertDetails.winner); 
+        }
+    })
+
+
+
+
+
     axios.get(url, {
       headers: {
         'Authorization': `Bearer ${token}`

@@ -44,41 +44,10 @@ const _Foo = () => {
 
     
    
-const Orders = () => {
+const History = () => {
     
-    const [isEmpty,setIsEmpty] = useState(true);
+    const [isEmpty,setIsEmpty] = useState(false);
    
-        axios.get("/api/v1/advert/getAdvert", {
-            headers: {
-                'Authorization': `Bearer ${tokenString}`
-            }
-        })
-        .then(response => {
-            if(response.data.success){
-            response.data.adverts.forEach((advert) => {
-                data.push({
-                    product: advert.images[0],
-                    productName: advert.category + "/" + advert.tag,
-                    seller: advert.owner.username,
-                    date: "??",
-                    fee: advert.createTime,
-
-                })
-            })
-        }
-            
-      
-        })
-        .catch(error => {
-            setIsEmpty(!false);
-            
-        });
-    
-      
-    
-    
-    
-
     
     var data = [
         {
@@ -177,4 +146,4 @@ const Orders = () => {
     );
 }
 
-export default Orders;
+export default History;

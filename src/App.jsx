@@ -15,6 +15,7 @@ import {
 import Orders from './pages/Profile/Orders'
 import User from './pages/Profile/User'
 import Products from './pages/Products'
+import History from './pages/Profile/History'
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -43,7 +44,8 @@ const router = createBrowserRouter([
         path: "/profile/favourites"
     },
     {
-        path: "/profile/history"
+        path: "/profile/history",
+        element: <History />
     },
     {
         path: "/profile",
