@@ -76,7 +76,14 @@ const Product_Foo_Button = styled.button`
 	align-items: center;
 `;
 
-const _Featured = () => {
+
+interface _FeaturedProps {
+    title: string;
+    
+}
+
+
+const _Featured = (props: _FeaturedProps) => {
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex justify-between w-full">
@@ -94,9 +101,6 @@ const _Featured = () => {
 				<p>Point</p>
 				<Button variant="outlined" fullWidth>
 					View
-				</Button>
-				<Button variant="outlined" fullWidth>
-					Join
 				</Button>
 			</div>
 		</div>
