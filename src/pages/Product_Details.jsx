@@ -8,6 +8,7 @@ import axios from 'axios'
 import Button from '@mui/material/Button'
 import { toast } from 'react-toastify';
 import coin from '../assets/token.png'
+import GoogleMapComponent from '../components/GoogleMapComponent';
 
 
 
@@ -24,6 +25,8 @@ const Product_Details = () => {
   const [participants,setParticipants] = useState([]);
   const [winner,setWinner] = useState();
   const { id } = useParams();
+  const [latitude,setLatitude] = useState("");
+  const [longitude,setLongitude] = useState("");
 
   console.log(id);
 
@@ -49,7 +52,9 @@ const Product_Details = () => {
             if(response.data.advertDetails.status=='completed') setWinner(response.data.advertDetails.winner); 
             console.log(response)
         }
-    })
+    }).catch(error => {
+      console.log(error.response.data.message);
+    });
 
 
     if(!detail){
@@ -63,7 +68,9 @@ const Product_Details = () => {
           if(advert._id==id) setJoined(true);
         })
         console.log(response);
-      })
+      }).catch(error => {
+        console.log(error.response.data.message);
+      });
     }
 
 
@@ -77,7 +84,12 @@ const Product_Details = () => {
         if (response.data.success) {
 
           console.log(response);
-          
+          if(response.data.advert.latitude){
+            setLatitude(response.data.advert.latitude);
+            setLongitude(response.data.advert.longitude);
+            latitude.replace(",",".");
+  longitude.replace(",",".");
+          }
           setName(response.data.advert.owner);
           setPrice(response.data.advert.point);
           setCat(response.data.advert.category + "/" + response.data.advert.tag);
@@ -252,6 +264,10 @@ const Product_Details = () => {
   }
  
 
+  
+
+  console.log(latitude,longitude);
+
 
   return (
     <>
@@ -284,7 +300,17 @@ const Product_Details = () => {
           <ProductInformation>{description}
           </ProductInformation>
           <PriceBox>{price}  <img src={coin} className=' w-auto h-6'/></PriceBox>
-          <LocationDetails></LocationDetails>
+          <LocationDetails>
+                {
+                  latitude==undefined?(
+                    <></>
+                  ) : (
+                    <>
+                    <GoogleMapComponent latitude={latitude} longitude={longitude} />
+                    </>
+                  )
+                }
+          </LocationDetails>
           {
             winner==undefined?(
               
@@ -309,7 +335,7 @@ const Product_Details = () => {
                 )
               
             ):(
-              <Button variant="text" disabled color="default">
+              <Button variant="outlined" color="warning" disabled >
               You have already joined
             </Button>
             )
