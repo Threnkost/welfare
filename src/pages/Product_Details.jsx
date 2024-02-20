@@ -9,6 +9,8 @@ import Button from '@mui/material/Button'
 import { toast } from 'react-toastify';
 import coin from '../assets/token.png'
 import GoogleMapComponent from '../components/GoogleMapComponent';
+import { useFavorite } from '../hooks/hooks';
+
 
 
 
@@ -36,7 +38,7 @@ const Product_Details = () => {
   const [detail,setDetail] = useState(false);
   const [joined,setJoined] = useState(false);
 
-
+  
 
   useEffect(() => {
 
@@ -56,6 +58,7 @@ const Product_Details = () => {
       console.log(error.response.data.message);
     });
 
+    
 
     if(!detail){
       axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
@@ -95,7 +98,9 @@ const Product_Details = () => {
           setCat(response.data.advert.category + "/" + response.data.advert.tag);
           setHeading(response.data.advert.title);
           setCity(response.data.advert.city);
-
+          if(response.data.advert.status=='completed'){
+            setWinner(response.data.advert.winner);
+          }
           setDescription(response.data.advert.description);
           setImages(prev => response.data.advert.images);
 
@@ -262,7 +267,65 @@ const Product_Details = () => {
       toast.error(error.response.data.message);
     });
   }
- 
+
+  const deleteAdvert = (event) => {
+    axios.delete(`/api/v1/advert/${id}`,{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(response => {
+      toast.done(response.data.message);
+    }).catch(error => {
+      toast.error(error.response.data.message);
+    })
+  }
+
+    const addFavorite = (event) => {
+      axios.post(`/api/v1/advert/favoriteAdverts/${id}`,{},{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(response => {
+        toast.done(response.data.message);
+      }).catch(error => {
+        toast.error(error.response.data.message);
+      })
+    }
+    
+    const deleteFavorite = (event) => {
+      axios.delete(`/api/v1/advert/favoriteAdverts/${id}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(response => {
+        toast.done(response.data.message);
+      }).catch(error => {
+        toast.error(error.response.data.message);
+      })
+    }
+
+    
+      
+      const [bool,setBool] = useState(false);
+      
+  
+      axios.get('/api/v1/advert/favoriteAdverts/10',{
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }
+        })
+        .then(response => {
+           response.data.favoriteAdverts.map((dt,key) => {
+              if(dt._id==id){ setBool(true); console.log("true gordum");}
+              
+           })
+        }).catch(error => {
+          
+        });
+  
+
+
+    
 
   
 
@@ -299,7 +362,39 @@ const Product_Details = () => {
           </DealerDetails>
           <ProductInformation>{description}
           </ProductInformation>
-          <PriceBox>{price}  <img src={coin} className=' w-auto h-6'/></PriceBox>
+          <div className='grid grid-cols-2'>
+          {
+                winner==undefined?(
+                  detail?(
+                    <>
+                    <PriceBox>{price} <img src={coin} className=' w-auto col-span-1 h-6'/></PriceBox>
+                    <Button variant="contained" color="error" className='col-span-1 w-full h-full' onClick={deleteAdvert}>
+                      Delete this Advert
+                    </Button>
+                    </>                      
+                  ):(
+                    <>
+                    <PriceBox>{price}  <img src={coin} className=' w-auto col-span-1 h-5'/></PriceBox>
+                    {
+                        bool?(
+                          <Button onClick={deleteFavorite} variant="contained" color="error" className='col-span-1 w-auto h-full'>
+                      Remove from favorites
+                    </Button>
+                        ):(
+                          <Button onClick={addFavorite} variant="contained" color="error" className='col-span-1 w-auto h-full'>
+                      Add to your favorites
+                    </Button>
+                    
+                        )
+                    }
+                    </>
+                  )
+                ):(
+                  <PriceBox className='w-auto col-span-2 h-6'>{}</PriceBox>
+                )
+              }
+          </div>
+          
           <LocationDetails>
                 {
                   latitude==undefined?(
