@@ -5,5 +5,9 @@ export default {
     Auth: {
         SignIn: `${PREFIX}/auth/login`,
         SignOut: ``
+    },
+    Advert: {
+        Edit: `${PREFIX}/`,
+        Join: `${PREFIX}/advert/join/`
     }
 }

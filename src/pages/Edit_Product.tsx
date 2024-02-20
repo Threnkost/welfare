@@ -12,7 +12,7 @@ import {
 	OutlinedInput,
 	Select,
 	TextField,
-    Slider,
+	Slider,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTags } from "../hooks/hooks";
@@ -29,16 +29,23 @@ const Edit_Product = () => {
 			description: "",
 			category: "",
 			tag: "",
-			point: "",
+			points: "",
+			deadline: "",
+			minParticipiants: 2,
 			images: [],
 		},
-		onSubmit: (values) => {},
+		onSubmit: (values) => {
+			console.log(values);
+		},
 	});
 
 	return (
 		<div className="bg-slate-100 flex flex-col h-screen">
 			<Navbar />
-			<form className="h-full grid grid-cols-3 m-auto w-2/4 pt-20 pb-20">
+			<form
+				className="h-full grid grid-cols-3 m-auto w-2/4 pt-20 pb-20"
+				onSubmit={formik.handleSubmit}
+			>
 				<p className="col-span-1">Geri</p>
 				<p className="col-span-2">Ürün</p>
 				{[1, 2, 3].map((item) => (
@@ -63,17 +70,29 @@ const Edit_Product = () => {
 					onChange={formik.handleChange}
 					value={formik.values.description}
 				/>
-				<TextField label="City" />
-				<TextField label="Points" />
+				<TextField label="City" id="city" name="city" onChange={formik.handleChange} />
+				<TextField label="Points" id="points" name="points" onChange={formik.handleChange} />
 				<Autocomplete
 					options={["Public", "Private"]}
 					renderInput={(params) => (
 						<TextField {...params} label="Visibility" />
 					)}
-                    value={"Public"}
+					value={"Public"}
 				/>
-                <Slider className="col-span-3" />
-                <DatePicker className="col-span-3" />
+				<Slider
+					className="col-span-3"
+					onChange={(e, v) => {
+						formik.setFieldValue("minParticipants", v);
+					}}
+                    max={100}
+                    min={2}
+				/>
+				<DatePicker
+					className="col-span-3"
+					onChange={(date, dateString) => {
+						formik.setFieldValue("deadline", dateString);
+					}}
+				/>
 				<Autocomplete
 					onChange={(e, v) => {
 						formik.setFieldValue("category", v);
@@ -100,6 +119,7 @@ const Edit_Product = () => {
 						<TextField {...params} label="Tag" />
 					)}
 					value={formik.values.tag}
+					disabled={formik.values.category ? false : true}
 				/>
 				<Button
 					className="col-span-3"

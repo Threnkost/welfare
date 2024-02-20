@@ -139,14 +139,6 @@ const Navbar = () => {
                     </Tooltip>
                 </div>
 
-                <div className="flex gap-8">
-                    <div className="flex items-center">
-                        <p className="text-lg text-blue-950">Kategoriler</p>
-                    </div>
-                    <p className="text-lg text-blue-950">Destek</p>
-                    <p className="text-lg text-blue-950">Hakkımızda</p>
-                </div>
-
                 <div className="flex gap-4 items-center">
                     {
                         userData.isAuthenticated

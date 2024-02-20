@@ -12,24 +12,3 @@ export const ProductPaper = styled.div`
    padding: 1em;
 `;
 
-
-export const Button = styled.button`
-    outline: none;
-    border: 1px solid #27AE60;
-    color: #27AE60;
-    background: none;
-    width: 100%;
-    border-radius: 3px;
-    padding: 5px 10px;
-    letter-spacing: 2px;
-    font-weight: 500;
-    font-size: 14px;
-
-    transition: background-color 250ms;
-
-    &:hover {
-        background-color: #27AE60;
-        color: #fff;
-        cursor: pointer;
-    }
-`;

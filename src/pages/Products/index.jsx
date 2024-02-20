@@ -93,7 +93,7 @@ const Products = () => {
             <div className="col-span-4 flex flex-wrap overflow-auto gap-4">
                 {
                     products.map((item, index) =>
-                        <Product key={index} owner={item.owner} tag={item.tag} title={item.title} description={item.description} point={item.point} img={item.images[0]} />
+                        <Product key={index} id={item._id} owner={item.owner} tag={item.tag} title={item.title} description={item.description} point={item.point} img={item.images[0]} />
                     )
                 }
             </div>
