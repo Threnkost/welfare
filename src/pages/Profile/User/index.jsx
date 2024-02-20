@@ -16,7 +16,7 @@ import {toast} from 'react-toastify'
 import axios from 'axios'
 import { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import { useUser } from "../../../hooks/hooks";
 const url = '/api/v1/user/update/profile';
 
 const User = () => {
@@ -27,7 +27,7 @@ const User = () => {
     const [phoneNumber,setPhoneNumber] = useState("");
     const [username,setUsername] = useState("");
 
-    const userData = useSelector(state => state.user);
+    const userData = useUser();
     console.log(userData);
     useEffect(() => {
         
