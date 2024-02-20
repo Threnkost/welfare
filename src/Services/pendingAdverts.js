@@ -4,7 +4,7 @@ import axios from 'axios'
 const pendingAdverts = () => {
 
     const token = localStorage.getItem("token");
-    const [adverts,setAdverts] = useState([]);
+    
 
      axios.get('/api/v1/advert/advertStatus/participatedAdverts',{
             headers: {
@@ -12,15 +12,15 @@ const pendingAdverts = () => {
             }
           })
           .then(response => {
-             response.data.adverts.forEach((dt,key) => {
-                if(dt.status=="active") setAdverts(prev => [...prev,dt]);
-             })
+            return response.data.adverts.filter((dt) => (
+                dt.status=="active"
+            ))
           }).catch(error => {
-            console.log(error.response.data.message);
+            return [];
           });
 
     
-  return adverts;
+  
 }
 
 export default pendingAdverts
