@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
+
 
 
 //! Add useMemory.
@@ -95,4 +96,22 @@ export const useTags = () => {
     }, [])
 
     return tags;
+}
+
+
+export const useUser = () => {
+    const [userData, setUserData] = useState(
+        {
+            email: localStorage.getItem('email'),
+            name: localStorage.getItem('name'),
+            username: localStorage.getItem('username'),
+            surname: localStorage.getItem('surname'),
+            phoneNumber: localStorage.getItem('phoneNumber'),
+            location: localStorage.getItem('location'),
+            city: localStorage.getItem('city'),
+            points: localStorage.getItem('points')
+        }
+    );
+
+    return userData;
 }

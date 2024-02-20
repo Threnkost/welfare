@@ -65,6 +65,15 @@ const SignIn = () => {
                     city: data.user.city,
                 }))
 
+                localStorage.setItem('email', data.user.email)
+                localStorage.setItem('name', data.user.name)
+                localStorage.setItem('username', data.user.username)
+                localStorage.setItem('surname', data.user.surname)
+                localStorage.setItem('points', data.user.points)
+                localStorage.setItem('location', data.user.location)
+                localStorage.setItem('phoneNumber', data.user.phoneNumber)
+                localStorage.setItem('city', data.user.city)
+
                 navigate('/');
             })
             .catch(error => {
