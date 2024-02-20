@@ -14,7 +14,8 @@ import ProfileSidebar from "../../../components/ProfileSidebar";
 import { Divider, Input, TextField } from "@mui/material";
 import {toast} from 'react-toastify'
 import axios from 'axios'
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const url = '/api/v1/user/update/profile';
 
@@ -25,6 +26,14 @@ const User = () => {
     const [surname,setSurname] = useState("");
     const [phoneNumber,setPhoneNumber] = useState("");
     const [username,setUsername] = useState("");
+
+    const userData = useSelector(state => state.user);
+
+    useEffect(() => {
+        
+      
+    }, [])
+    
 
     const token = localStorage.getItem('token');
 
@@ -41,24 +50,11 @@ const User = () => {
         console.log(data);
 
 
-        axios.put(url, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            if(response.data.success){
-            toast.success('Your information has changed successfully!');
-            console.log(response.data);
-            }
-        else toast.error(response.data.message);
-        })
-        .catch(error => {
-            console.error('Güncelleme hatası:', error.response.data);
-        });
+       
 
     }
 
+    //rating bilgisi yok sanirim backendden
 
     return (
         <div className="w-screen h-screen flex flex-col">
@@ -71,14 +67,14 @@ const User = () => {
                         <div className="flex items-center gap-5">
                             <img src={illustration3} alt="" width="96" />
                             <div className="flex flex-col">
-                                <p>Eren Oğuz</p>
-                                <p>Izmit, Kocaeli</p>
+                                <p>{userData.name} {userData.surname}</p>
+                                <p>{userData.location}, {userData.city}</p>
                             </div>
                         </div>
                         <div className="grid grid-cols-3 gap-4 gap-3">
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
                                 Puanınız
-                                <Rating value={4} readOnly />
+                                <Rating value={4} readOnly /> 
                             </div>
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
                                 Kayıt Tarihi
@@ -86,12 +82,12 @@ const User = () => {
                             </div>
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
                                 Krediniz
-                                <p>99</p>
+                                <p>{userData.points}</p>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3 mb-3">
                             <TextField label="Name" variant="outlined" onChange={(event) => {
-                                setName(event.target.value);
+                                setName(event.target.value); 
                             }}/>
                             <TextField label="Surname" variant="outlined" onChange={(event) => {
                                 setSurname(event.target.value);

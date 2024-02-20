@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { init } from '../redux/slices/user';
+import { useNavigate } from 'react-router-dom';
 
 
 const validationSchema = Yup.object({
@@ -24,6 +25,7 @@ const validationSchema = Yup.object({
 
 const SignIn = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const formik = useFormik({
@@ -62,6 +64,9 @@ const SignIn = () => {
                     phoneNumber: data.user.phoneNumber,
                     city: data.user.city,
                 }))
+
+                navigate('/');
+
             })
             .catch(error => {
                 if (error.response && error.response.data && error.response.data.msg) {
@@ -71,6 +76,8 @@ const SignIn = () => {
                     toast.error("An error occured while signing in", { autoClose: 1500 });
                 }
             })
+
+            
         }
     });
 

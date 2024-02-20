@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faClock, faList, faHeart, faCircleDollarToSlot, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 import avatar from '../../assets/avatar.png';
 
@@ -16,13 +17,16 @@ const _Foo = (props) => {
 
 
 const ProfileSidebar = () => {
+
+
+
     return (
         <aside className="flex flex-col justify-between bg-slate-200 w-2/12">
             <div>
-                <_Foo title="Bilgilerim" icon={faUser} checked />
-                <_Foo title="Geçmişim" icon={faClock} />
-                <_Foo title="İlanlarım" icon={faList} />
-                <_Foo title="Favorilerim" icon={faHeart} />
+               <Link to="/profile"> <_Foo title="Bilgilerim" icon={faUser} checked /></Link>
+                <Link to="/profile/history" ><_Foo title="Geçmişim" icon={faClock} /></Link>
+                <Link to="/profile/orders"><_Foo title="İlanlarım" icon={faList} /></Link>
+                <Link to="/profile/favourites"><_Foo title="Favorilerim" icon={faHeart} /></Link>
                 <_Foo title="Bağış Yap" icon={faCircleDollarToSlot} />
             </div>
 

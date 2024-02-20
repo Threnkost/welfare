@@ -12,6 +12,7 @@ import ProfileSidebar from "../../../components/ProfileSidebar";
 import { Divider } from "@mui/material";
 
 import axios from 'axios'
+import { useEffect, useState } from "react";
 
 
 const _Foo = () => {
@@ -36,10 +37,49 @@ const _Foo = () => {
     );
 }
 
+    const tokenString = localStorage.getItem('token');
+    
 
+    
+
+    
+   
 const Orders = () => {
+    
+    const [isEmpty,setIsEmpty] = useState(true);
+   
+        axios.get("/api/v1/advert/getAdvert", {
+            headers: {
+                'Authorization': `Bearer ${tokenString}`
+            }
+        })
+        .then(response => {
+            if(response.data.success){
+            response.data.adverts.forEach((advert) => {
+                data.push({
+                    product: advert.title,
+                    productName: advert.category + "/" + advert.tag,
+                    seller: advert.owner.username,
+                    date: "??",
+                    fee: advert.createTime,
 
-    var isEmpty = true;
+                })
+            })
+        }
+            
+      
+        })
+        .catch(error => {
+            setIsEmpty(!false);
+            
+        });
+    
+      
+    
+    
+    
+
+    
     var data = [
         {
             product: 'asd',
