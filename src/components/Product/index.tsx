@@ -73,6 +73,7 @@ interface ProductProps {
 	img: string;
 	tag: string;
 	fav?: boolean;
+	pending?: boolean;
 }
 
 const Product = (props: ProductProps) => {
@@ -101,59 +102,79 @@ const Product = (props: ProductProps) => {
 
 	return (
 		<_ProductPaper>
-			<img className="mb-2" src={props.img} alt="" width="128" />
-			<Rating value={4} readOnly />
-			<p>{props.title}</p>
-			<p>{props.description}</p>
-			<p>{props.owner.username}</p>
-			<p>{props.point} $</p>
-			<p>{props.id}</p>
-			<_Divider className="mt-2 mb-2" />
-			<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
-				<Button
-					variant="outlined"
-					fullWidth
-					onClick={() => {
-						navigate(`/product/${props.id}`);
-					}}
-				>
-					View
-				</Button>
-				<Button variant="outlined" fullWidth onClick={handleJoin}>
-					Join
-				</Button>
-				{!props.fav ? (
-					<Button
-						variant="outlined"
-						fullWidth
-						onClick={() => {
-							axios
-								.post(
-									`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
-									{},
-									{
-										headers: {
-											Authorization: `Bearer ${localStorage.getItem(
-												"token"
-											)}`,
-										},
-									}
-								)
-								.then((response) => {
-									toast.success(response.data.message);
-								})
-								.catch((error) => {
-									toast.error(error.response.data.message);
-								});
-						}}
-					>
-						Fav
-					</Button>
-				) : null}
-			</div>
-			<Chip label={props.tag} />
+			{!props.pending ? (
+				<>
+					<img className="mb-2" src={props.img} alt="" width="128" />
+					<Rating value={4} readOnly />
+					<p>{props.title}</p>
+					<p>{props.description}</p>
+					<p>{props.owner.username}</p>
+					<p>{props.point} $</p>
+					<p>{props.id}</p>
+					<_Divider className="mt-2 mb-2" />
+					<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
+						<Button
+							variant="outlined"
+							fullWidth
+							onClick={() => {
+								navigate(`/product/${props.id}`);
+							}}
+						>
+							View
+						</Button>
+						<Button
+							variant="outlined"
+							fullWidth
+							onClick={handleJoin}
+						>
+							Join
+						</Button>
+						{!props.fav ? (
+							<Button
+								variant="outlined"
+								fullWidth
+								onClick={() => {
+									axios
+										.post(
+											`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
+											{},
+											{
+												headers: {
+													Authorization: `Bearer ${localStorage.getItem(
+														"token"
+													)}`,
+												},
+											}
+										)
+										.then((response) => {
+											toast.success(
+												response.data.message
+											);
+										})
+										.catch((error) => {
+											toast.error(
+												error.response.data.message
+											);
+										});
+								}}
+							>
+								Fav
+							</Button>
+						) : null}
+					</div>
+					<Chip label={props.tag} />
+				</>
+			) : (
+				<>
+					<img className="mb-2" src={props.img} alt="" width="128" />
+					<p>{props.title}</p>
+					<p>{props.description}</p>
+					<Chip label="Pending" color="warning" />
+					<Divider />
+					<Chip label={props.tag} />
+				</>
+			)}
 		</_ProductPaper>
 	);
 };
-
 export default Product;

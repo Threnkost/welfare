@@ -33,6 +33,7 @@ import asd2 from "../../assets/Allura - Feedback Session.png";
 import { useRef, useEffect, useState, MouseEventHandler } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { usePendingAdverts } from "../../Services/pendingAdverts";
 
 interface FooProps {
 	title: string;
@@ -74,45 +75,6 @@ const Product_Foo_Button = styled.button`
 	justify-content: center;
 	align-items: center;
 `;
-
-const Product_Foo = (props) => {
-	return (
-		<div className="bg-white rounded-md w-52 h-80 flex flex-col box-border gap-4 justify-center">
-			{/* IMAGE */}
-			<div className="border border-black w-8/12 aspect-square self-center rounded"></div>
-			<div className="flex self-center items-center">
-				<Star />
-				<Star />
-				<Star />
-				<Star />
-				<Star />
-			</div>
-			<p className="font-bold text-blue-950 self-center text-center">
-				Lorem ipsum dolor sit amet
-			</p>
-			<Divider />
-			<div className="flex gap-2 self-center">
-				<Tooltip title="Favorilere Ekle">
-					<Product_Foo_Button>
-						<FontAwesomeIcon icon={faHeart} />
-					</Product_Foo_Button>
-				</Tooltip>
-
-				<Tooltip title="Paylaş">
-					<Product_Foo_Button>
-						<FontAwesomeIcon icon={faShareNodes} />
-					</Product_Foo_Button>
-				</Tooltip>
-
-				<Tooltip title="Sepete Ekle">
-					<Product_Foo_Button>
-						<FontAwesomeIcon icon={faPlus} />
-					</Product_Foo_Button>
-				</Tooltip>
-			</div>
-		</div>
-	);
-};
 
 const _Featured = () => {
 	return (
@@ -206,6 +168,9 @@ const Home = () => {
 	const [adverts, setAdverts] = useState<Array<any>>([]);
 	const [favourites, setFavourites] = useState<Array<any>>([]);
 
+    //! Refactor it later, Fix it.
+    const [pending, setPending] = useState<Array<any>>([]);
+
 	useEffect(() => {
 		axios
 			.get("http://app.welfare.ws/api/v1/advert/filteredAdverts", {
@@ -235,6 +200,21 @@ const Home = () => {
 			})
 			.catch((error) => {
 				console.error(error);
+			});
+
+		axios
+			.get("/api/v1/advert/advertStatus/participatedAdverts", {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`,
+				},
+			})
+			.then((response) => {
+				response.data.adverts.forEach((dt: any, key) => {
+					if (dt.status == "active") setPending(prev => [...prev, dt])
+				});
+			})
+			.catch((error) => {
+				console.log(error.response.data.message);
 			});
 	}, []);
 
@@ -280,7 +260,20 @@ const Home = () => {
 						<h1 className="font-bold text-2xl text-blue-950">
 							Pending
 						</h1>
-						<div className="flex flex-wrap justify-between"></div>
+						<div className="flex justify-between overflow-auto">
+							{pending.map((item, index) => (
+								<Product
+									id={item._id}
+									title={item.title}
+									owner={item.owner}
+									point={item.point}
+									description={item.description}
+									img={item.images[0]}
+									tag={item.tag}
+									pending
+								/>
+							))}
+						</div>
 					</div>
 				</Container>
 				<div className="w-full grid grid-cols-3 gap-4">
@@ -360,7 +353,7 @@ const Home = () => {
 					Explore
 				</h1>
 				<Divider />
-				<div className="flex gap-4 items-center justify-between">
+				<div className="flex gap-4 items-center justify-between overflow-auto">
 					{adverts.map((item, index) => (
 						<Product
 							id={item._id}
@@ -379,7 +372,7 @@ const Home = () => {
 					Favourites
 				</h1>
 				<Divider />
-				<div className="flex gap-4 items-center gap-4">
+				<div className="flex items-center gap-4 overflow-auto">
 					{favourites.map((item, index) => (
 						<Product
 							fav
