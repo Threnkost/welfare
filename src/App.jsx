@@ -26,6 +26,8 @@ import store from './redux/store'
 import Product_Details from './pages/Product_Details'
 import UserPage from './pages/User'
 import endpoints from './Constants/endpoints'
+import Edit_Product from './pages/Edit_Product'
+
 
 const router = createBrowserRouter([
     {
@@ -70,6 +72,10 @@ const router = createBrowserRouter([
     {
         path: "/user/:id",
         element: <UserPage />
+    },
+    {
+        path: "/edit/:id",
+        element: <Edit_Product />
     }
 ])
 

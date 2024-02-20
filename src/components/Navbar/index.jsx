@@ -71,11 +71,11 @@ const _CartItem = () => {
 }
 
 
-const Navbar = ({ defaultCategory, defaultTag }) => {
+const Navbar = () => {
 
     const [isCartVisible, setCartVisible] = useState(false);
-    const [category, setCategory] = useState(defaultCategory ? defaultCategory : "");
-    const [tag, setTag] = useState(defaultTag ? defaultTag : "");
+    const [category, setCategory] = useState("");
+    const [tag, setTag] = useState("");
     const tags = useTags();
 
     const navigate = useNavigate();
@@ -96,7 +96,7 @@ const Navbar = ({ defaultCategory, defaultTag }) => {
 
     return (
         <>
-            <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between">
+            <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between z-20 shadow-md">
                 <Link to="/">
                     <img
                         src={logo}
