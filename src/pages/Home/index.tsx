@@ -45,7 +45,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from "react-router-dom";
-
+import coin from '../../assets/token.png'
 interface FooProps {
 	title: string;
 	category: string;
@@ -333,14 +333,17 @@ const Home = () => {
 											loading="lazy"
 										/>
 										<ImageListItemBar
-                    title={item.point + " Points"} // " Points" eklendi
-                    position="top" // Bar'ı resmin üstüne yerleştir
-                    sx={{
-                        background:
-                            'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                            'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                    }}
-                />
+											title={ <div style={{ display: 'flex', alignItems: 'center' }}>
+											<span style={{ marginRight: 5 }}>{item.point}</span>
+											<img src={coin} alt="Coin" style={{ height: '24px' }} />
+										</div>} 
+											position="top" 
+											sx={{
+												background:
+													'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+													'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+											}}
+										/>
 									</Link>
 								</ImageListItem>
 							))}
