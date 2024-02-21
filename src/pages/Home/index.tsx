@@ -274,17 +274,15 @@ const Home = () => {
 				console.error(error);
 			});
 
-		axios
+			axios
 			.get("/api/v1/advert/advertStatus/participatedAdverts", {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},
 			})
 			.then((response) => {
-				response.data.adverts.forEach((dt: any, key) => {
-					if (dt.status === "active")
-						setPending([...pending, dt]);
-				});
+				const activeAdverts = response.data.adverts.filter((dt) => dt.status === "active");
+				setPending(activeAdverts); // Tüm aktif ilanları bir kerede setPending ile güncelle
 			})
 			.catch((error) => {
 				console.log(error.response.data.message);
@@ -357,7 +355,6 @@ const Home = () => {
 							{pending.map((item, index) => (
 								<Product
 									id={item._id}
-									title={item.title}
 									owner={item.owner}
 									point={item.point}
 									description={item.description}
