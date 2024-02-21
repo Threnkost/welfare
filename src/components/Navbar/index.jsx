@@ -106,7 +106,7 @@ const Navbar = () => {
                         src={logo2}
                         alt=""
                         width="72"
-                        className="rounded-lg overflow-hidden"
+                        className="rounded-3xloverflow-hidden"
                     />
                 </Link>
                 </div>
