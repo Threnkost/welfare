@@ -13,28 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { HTTPMethods } from "../../Constants/methods";
 import endpoints from "../../Constants/endpoints";
 import axios from "axios";
+import point_ill from '../../assets/token.png';
 import { toast } from "react-toastify";
 
-const _ProductPaper = styled("div")(
-	(props) => `
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25em;
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 0.5em;
-    `
-);
 
-const _ImageBox = styled("div")(
-	(props) => `
-        width: 8rem;
-        height: 8rem;
-        border-radius: 5px;
-        border: 1px solid black;
-    `
-);
+
 
 const _Divider = styled("div")(
 	(props) => `
@@ -56,13 +39,12 @@ const _Button = styled("button")(
     `
 );
 
-const _CustomButton = ({ title, render }) => {
-	return (
-		<Tooltip title={title}>
-			<_Button>{render()}</_Button>
-		</Tooltip>
-	);
-};
+
+const _StyledButton = styled("button")(
+	props => `
+	`
+)
+
 
 interface ProductProps {
 	id: string;
@@ -109,8 +91,12 @@ const Product = (props: ProductProps) => {
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.owner.username}</p>
-					<_Divider className="mt-2 mb-2" />
-					<p className="font-bold text-blue-950 text-lg">{props.point} Pts</p>
+					<p className="font-bold text-blue-950 text-lg">
+						<span className="flex items-center gap-2">
+							{props.point}
+							<img src={point_ill} alt="" className="w-5 h-5" />
+						</span>
+					</p>
 					<_Divider className="mt-2 mb-2" />
 					<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
 						<Button
