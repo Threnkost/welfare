@@ -13,11 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { HTTPMethods } from "../../Constants/methods";
 import endpoints from "../../Constants/endpoints";
 import axios from "axios";
-import point_ill from '../../assets/token.png';
+import point_ill from "../../assets/token.png";
 import { toast } from "react-toastify";
-
-
-
+import { useState, useEffect } from "react";
 
 const _Divider = styled("div")(
 	(props) => `
@@ -39,12 +37,17 @@ const _Button = styled("button")(
     `
 );
 
-
 const _StyledButton = styled("button")(
-	props => `
+	(props: any) => `
+		width: 100%;
+		padding: 5px;
+		border-radius: 5px;
+		background-color: ${props.bgColor};
+		color: ${props.color};
+		border: ${props.border};
+		transition: background-color 350ms ease-out;
 	`
-)
-
+);
 
 interface ProductProps {
 	id: string;
@@ -68,6 +71,9 @@ const Product = (props: ProductProps) => {
 
 	const token = localStorage.getItem("token");
 
+	const [isFav, setFav] = useState(false);
+	const [display, setDisplay] = useState<boolean | undefined>(true);
+
 	const handleJoin = () => {
 		HTTPMethods.Join(
 			`${endpoints.Advert.Join}${props.id}`,
@@ -75,55 +81,157 @@ const Product = (props: ProductProps) => {
 			{ Authorization: `Bearer ${token}` }
 		)
 			.then((response: any) => {
-				console.log(response);
+				toast.success(response.data.message);
 			})
 			.catch((error: any) => {
-				console.log(error);
+				toast.error(error.response.data.message);
 			});
 	};
 
 	return (
-		<div className="flex flex-col rounded bg-white shadow-md shadow-slate-300 p-2 items-center">
-			{!props.pending ? (
-				<>
-					<img className="mb-2 rounded" src={props.img} alt="" style={{width: 160, height: 90}} />
-					<Rating value={4} readOnly />
-					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
-					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
-					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.owner.username}</p>
-					<p className="font-bold text-blue-950 text-lg">
-						<span className="flex items-center gap-2">
-							{props.point}
-							<img src={point_ill} alt="" className="w-5 h-5" />
-						</span>
-					</p>
-					<_Divider className="mt-2 mb-2" />
-					<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
-						<Button
-							variant="outlined"
-							fullWidth
-							onClick={() => {
-								navigate(`/product/${props.id}`);
-							}}
-						>
-							View
-						</Button>
-						<Button
-							variant="outlined"
-							fullWidth
-							onClick={handleJoin}
-						>
-							Join
-						</Button>
-						{!props.fav ? (
+		<>
+			{display && (
+				<div className="flex flex-col rounded bg-white shadow-md shadow-slate-300 p-2 items-center">
+					{!props.pending ? (
+						<>
+							<img
+								className="mb-2 rounded"
+								src={props.img}
+								alt=""
+								style={{ width: 160, height: 90 }}
+							/>
+							<Rating value={4} readOnly />
+							<p
+								style={{
+									maxWidth: 100,
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								}}
+							>
+								{props.title}
+							</p>
+							<p
+								style={{
+									maxWidth: 100,
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								}}
+							>
+								{props.description}
+							</p>
+							<p
+								style={{
+									maxWidth: 100,
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								}}
+							>
+								{props.owner.username}
+							</p>
+							<p className="font-bold text-blue-950 text-lg">
+								<span className="flex items-center gap-2">
+									{props.point}
+									<img
+										src={point_ill}
+										alt=""
+										className="w-5 h-5"
+									/>
+								</span>
+							</p>
+							<_Divider className="mt-2 mb-2" />
+							<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
+								<_StyledButton
+									onClick={() => {
+										navigate(`/product/${props.id}`);
+									}}
+									bgColor="#27ae60"
+									color="#fff"
+								>
+									View
+								</_StyledButton>
+								<Button
+									variant="outlined"
+									fullWidth
+									onClick={handleJoin}
+								>
+									Join
+								</Button>
+								{!props.fav ? (
+									<_StyledButton
+										bgColor={
+											isFav ? " #e67e22" : "transparent"
+										}
+										color={isFav ? "#fff" : " #e67e22 "}
+										border="1px solid #e67e22"
+										onClick={() => {
+											setFav(true);
+											axios
+												.post(
+													`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
+													{},
+													{
+														headers: {
+															Authorization: `Bearer ${localStorage.getItem(
+																"token"
+															)}`,
+														},
+													}
+												)
+												.then((response) => {
+													toast.success(
+														response.data.message
+													);
+												})
+												.catch((error) => {
+													toast.error(
+														error.response.data
+															.message
+													);
+												});
+										}}
+									>
+										Fav
+									</_StyledButton>
+								) : null}
+							</div>
+							<Chip label={props.tag} />
+						</>
+					) : (
+						<>
+							<img
+								className="mb-2"
+								src={props.img}
+								alt=""
+								style={{ width: 160, height: 90 }}
+							/>
+							<p
+								style={{
+									maxWidth: 100,
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								}}
+							>
+								{props.title}
+							</p>
+							<p
+								style={{
+									maxWidth: 100,
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								}}
+							>
+								{props.description}
+							</p>
 							<Button
-								variant="outlined"
-								fullWidth
 								onClick={() => {
 									axios
-										.post(
-											`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
-											{},
+										.delete(
+											`http://app.welfare.ws/api/v1/advert/withdraw/${props.id}`,
 											{
 												headers: {
 													Authorization: `Bearer ${localStorage.getItem(
@@ -136,6 +244,7 @@ const Product = (props: ProductProps) => {
 											toast.success(
 												response.data.message
 											);
+											setDisplay(false);
 										})
 										.catch((error) => {
 											toast.error(
@@ -143,24 +252,20 @@ const Product = (props: ProductProps) => {
 											);
 										});
 								}}
+								className=" mt-1"
+								variant="outlined"
+								color="error"
+								fullWidth
 							>
-								Fav
+								Leave
 							</Button>
-						) : null}
-					</div>
-					<Chip label={props.tag} />
-				</>
-			) : (
-				<>
-					<img className="mb-2" src={props.img} alt="" style={{width: 160, height: 90}} />
-					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
-					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
-					<Chip label="Pending" color="warning" />
-					<Divider />
-					<Chip label={props.tag} />
-				</>
+							<Divider />
+							<Chip label={props.tag} />
+						</>
+					)}
+				</div>
 			)}
-		</div>
+		</>
 	);
 };
 export default Product;
