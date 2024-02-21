@@ -37,6 +37,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { usePendingAdverts } from "../../Services/pendingAdverts";
 import { Chip } from "@mui/material";
+import { useSelector } from "react-redux";
 
 interface FooProps {
 	title: string;
@@ -106,8 +107,8 @@ const _Featured = (props: _FeaturedProps) => {
 					src={props.item.images[0]}
 					style={{ width: 160, height: 90 }}
 				/>
-				<p>{props.title}</p>
-				<p>{props.item.description}</p>
+				<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
+				<p style={{maxWidth: 200, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.item.description}</p>
 				<p>{props.point} ₺</p>
 				<Button
 					variant="outlined"
@@ -229,6 +230,8 @@ const Home = () => {
 	const [favourites, setFavourites] = useState<Array<any>>([]);
 	const [featured, setFeatured] = useState<Array<any>>([]);
 
+    const as = useSelector(state => state.user)
+
 	//! Refactor it later, Fix it.
 	const [pending, setPending] = useState<Array<any>>([]);
 
@@ -279,8 +282,8 @@ const Home = () => {
 			})
 			.then((response) => {
 				response.data.adverts.forEach((dt: any, key) => {
-					if (dt.status == "active")
-						setPending((prev) => [...prev, dt]);
+					if (dt.status === "active")
+						setPending([...pending, dt]);
 				});
 			})
 			.catch((error) => {
@@ -379,14 +382,14 @@ const Home = () => {
 							className="w-8 h-8 mr-10 text-blue-950"
 							icon={faLocationDot}
 						/>
-						<p className="text-lg"></p>
+						<p className="text-lg">View only local listings with GPS</p>
 					</div>
 					<div className="bg-white rounded-md p-4 flex items-center">
 						<FontAwesomeIcon
 							className="w-8 h-8 mr-10 text-blue-950"
 							icon={faShieldHalved}
 						/>
-						<p className="text-lg">Lorem ipsum dolor sit amet</p>
+						<p className="text-lg">The Welfare ecosystem is self-sustaining</p>
 					</div>
 				</div>
 
@@ -418,7 +421,7 @@ const Home = () => {
 						<img src={asd} alt="" />
 						<div className="flex flex-col justify-between p-4">
 							<h1 className="text-blue-950 text-xl font-bold">
-								Lorem ipsum dolor sit amet
+								Also...
 							</h1>
 							<p>
 								While our Welfare website is accessible with

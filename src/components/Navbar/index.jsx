@@ -82,6 +82,8 @@ const Navbar = () => {
     const userData = useSelector(state => state.user);
     const userDispatch = useDispatch();
 
+    const [isAuthenticated, setAuthenticated] = useState(localStorage.getItem('isAuthenticated'));
+
     const getTargetURL = () => {
 
         var targetURL = '/products';
@@ -142,7 +144,7 @@ const Navbar = () => {
 
                 <div className="flex gap-4 items-center">
                     {
-                        userData.isAuthenticated
+                        isAuthenticated === 'true'
                             ? (
                                 <>
                                     <Tooltip title="Profile">
@@ -153,8 +155,10 @@ const Navbar = () => {
 
                                     <Tooltip title="Sign out">
                                         <button onClick={() => {
-                                            userDispatch(signOut())
-                                            navigate('/');
+                                            setAuthenticated(false);
+                                            localStorage.setItem('isAuthenticated', '')
+                                            localStorage.setItem('token', '')
+                                            window.location.reload();
                                         }}>
                                             <FontAwesomeIcon className="w-6 h-6 text-blue-900" icon={faRightFromBracket} />
                                         </button>
