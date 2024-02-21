@@ -116,7 +116,7 @@ const SignIn = () => {
                     helperText={formik.touched.password && formik.errors.password}
                 />
                 
-                <p className="font-bold text-md text-blue-900 cursor-pointer">Forgot password?</p>
+                <p className="font-bold text-md text-blue-900 cursor-pointer"><a href="/forgot-password">Forgot password?</a></p>
                 <Button
                     type='submit'
                     className="text-green-500"

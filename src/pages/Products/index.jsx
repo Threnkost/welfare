@@ -89,12 +89,9 @@ const Products = () => {
     }, [])
 
     return (
-        <div className="w-screen h-screen grid grid-cols-5">
-            <div className="col-span-5">
-                <Navbar />
-            </div>
-            <_Sidebar className="col-span-1" />
-            <div className="col-span-4 flex flex-wrap overflow-auto gap-4">
+        <div className="flex flex-col h-screen w-screen">
+            <Navbar />
+            <div className="flex flex-wrap gap-4 overflow-auto items-center justify-center w-full h-full">
                 {
                     products.map((item, index) =>
                         <Product key={index} id={item._id} owner={item.owner} tag={item.tag} title={item.title} description={item.description} point={item.point} img={item.images[0]} />
@@ -104,5 +101,21 @@ const Products = () => {
         </div>
     );
 }
+
+/*
+        <div className="w-screen h-screen grid grid-cols-5">
+            <div className="col-span-5 h-full">
+                <Navbar />
+            </div>
+            <_Sidebar className="col-span-1 h-full" />
+            <div className="col-span-4 flex flex-wrap h-full overflow-auto gap-4">
+                {
+                    products.map((item, index) =>
+                        <Product key={index} id={item._id} owner={item.owner} tag={item.tag} title={item.title} description={item.description} point={item.point} img={item.images[0]} />
+                    )
+                }
+            </div>
+        </div>
+*/
 
 export default Products;

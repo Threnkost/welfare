@@ -101,7 +101,11 @@ const _Featured = (props: _FeaturedProps) => {
 			</div>
 
 			<div className="bg-white rounded flex flex-col p-4 items-center gap-2">
-				<img className="w-24 h-24 rounded" src={props.item.images[0]} style={{width: 160, height: 90}} />
+				<img
+					className="w-24 h-24 rounded"
+					src={props.item.images[0]}
+					style={{ width: 160, height: 90 }}
+				/>
 				<p>{props.title}</p>
 				<p>{props.item.description}</p>
 				<p>{props.point} ₺</p>
@@ -228,12 +232,12 @@ const Home = () => {
 	//! Refactor it later, Fix it.
 	const [pending, setPending] = useState<Array<any>>([]);
 
-	console.log(featured);
-
 	useEffect(() => {
-        if (!localStorage.getItem('token')) {
-            return;
-        }
+		setPending([]);
+
+		if (!localStorage.getItem("token")) {
+			return;
+		}
 
 		axios
 			.get("http://app.welfare.ws/api/v1/advert/filteredAdverts", {
@@ -288,8 +292,8 @@ const Home = () => {
 		<Page>
 			<Navbar />
 			<Content>
-				<Container>
-					<div className="row-span-2 flex">
+				<div className="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 gap-4">
+					<div className="lg:col-span-3 lg:row-span-3 flex">
 						<Button
 							variant="outlined"
 							onClick={() => setPage(page - 1)}
@@ -297,7 +301,7 @@ const Home = () => {
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
 						{/*<_Slider featured={featured} page={page} /> */}
-						{featured.length > 0 ? (
+						{featured.length >= 6 ? (
 							<_Slider featured={featured} page={page} />
 						) : null}
 
@@ -309,11 +313,11 @@ const Home = () => {
 						</Button>
 					</div>
 
-					<div className="flex flex-col bg-white rounded-md p-4 gap-4 box-border justify-center">
+					<div className="lg:col-span-2 lg:row-span-1 flex flex-col bg-white rounded-md p-4 gap-4 box-border justify-center">
 						<h1 className="font-bold text-2xl text-blue-950">
 							Categories
 						</h1>
-						<div className="flex flex-wrap justify-between">
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
 							<Foo
 								category="Clothing"
 								src={clothes}
@@ -342,11 +346,11 @@ const Home = () => {
 							/>
 						</div>
 					</div>
-					<div className="flex flex-col bg-white p-4 gap-4 box-border rounded-md">
+					<div className="col-span-2 row-span-2 flex flex-col bg-white p-4 gap-4 box-border rounded-md">
 						<h1 className="font-bold text-2xl text-blue-950">
 							Pending
 						</h1>
-						<div className="flex overflow-auto">
+						<div className="flex overflow-auto gap-4">
 							{pending.map((item, index) => (
 								<Product
 									id={item._id}
@@ -361,8 +365,8 @@ const Home = () => {
 							))}
 						</div>
 					</div>
-				</Container>
-				<div className="w-full grid grid-cols-3 gap-4">
+				</div>
+				<div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-4">
 					<div className="bg-white rounded-md p-4 flex items-center">
 						<FontAwesomeIcon
 							className="w-8 h-8 mr-10 text-blue-950"
@@ -389,7 +393,27 @@ const Home = () => {
 				<Divider />
 
 				{/*Şu an */}
-				<div className="w-full grid grid-cols-2 gap-4">
+				<div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
+					<div className="rounded-md bg-blue-300 grid grid-cols-2 gap-4">
+						<img src={asd2} alt="" />
+						<div className="flex flex-col justify-between p-4">
+							<h1 className="text-blue-950 text-xl font-bold">
+								What is Welfare?
+							</h1>
+							<p>
+								Welfare is a sharing platform that helps you
+								reach those in need by delivering unused items
+								from your home while also assisting you in
+								finding items you may need. This application
+								provides a sustainable way to both utilize your
+								surplus and easily access the things you
+								require. By engaging in second-hand
+								transactions, it contributes to environmental
+								conservation and promotes sharing within the
+								community.
+							</p>
+						</div>
+					</div>
 					<div className="rounded-md bg-blue-300 grid grid-cols-2 gap-4">
 						<img src={asd} alt="" />
 						<div className="flex flex-col justify-between p-4">
@@ -397,41 +421,15 @@ const Home = () => {
 								Lorem ipsum dolor sit amet
 							</h1>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Aenean ultrices aliquet elit, a
-								porttitor felis convallis a. Ut nisl enim,
-								auctor sit amet sapien non, blandit feugiat
-								arcu. Duis in commodo augue, sed porta nisl.
-								Interdum et malesuada fames ac ante ipsum primis
-								in faucibus. Donec vitae vehicula tellus. Donec
-								nec orci eu arcu vehicula posuere id in sapien.
-								Duis tincidunt efficitur euismod. Aenean dui
-								sapien, feugiat ut imperdiet nec, imperdiet nec
-								neque.
+								While our Welfare website is accessible with
+								limited access due to security measures, for a
+								full-featured experience, you can download our
+								application by searching for 'Welfare' on the
+								Google Play Store. Take a step into the world of
+								Welfare with various features such as posting
+								ads, signing up, and exploring listings with the
+								full version, and discover the power of sharing.
 							</p>
-							<Button variant="outlined">Şimdi başlayın</Button>
-						</div>
-					</div>
-					<div className="rounded-md bg-blue-300 grid grid-cols-2 gap-4">
-						<img src={asd2} alt="" />
-						<div className="flex flex-col justify-between p-4">
-							<h1 className="text-blue-950 text-xl font-bold">
-								Lorem ipsum dolor sit amet
-							</h1>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Aenean ultrices aliquet elit, a
-								porttitor felis convallis a. Ut nisl enim,
-								auctor sit amet sapien non, blandit feugiat
-								arcu. Duis in commodo augue, sed porta nisl.
-								Interdum et malesuada fames ac ante ipsum primis
-								in faucibus. Donec vitae vehicula tellus. Donec
-								nec orci eu arcu vehicula posuere id in sapien.
-								Duis tincidunt efficitur euismod. Aenean dui
-								sapien, feugiat ut imperdiet nec, imperdiet nec
-								neque.
-							</p>
-							<Button variant="outlined">Şimdi başlayın</Button>
 						</div>
 					</div>
 				</div>
@@ -442,7 +440,7 @@ const Home = () => {
 							Explore
 						</h1>
 						<Divider />
-						<div className="flex gap-4 items-center justify-between overflow-auto">
+						<div className="flex gap-4 items-center overflow-auto">
 							{adverts.map((item, index) => (
 								<Product
 									id={item._id}

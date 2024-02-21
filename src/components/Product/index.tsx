@@ -106,11 +106,10 @@ const Product = (props: ProductProps) => {
 				<>
 					<img className="mb-2" src={props.img} alt="" style={{width: 160, height: 90}} />
 					<Rating value={4} readOnly />
-					<p>{props.title}</p>
-					<p>{props.description}</p>
-					<p>{props.owner.username}</p>
+					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
+					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
+					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.owner.username}</p>
 					<p>{props.point} $</p>
-					<p>{props.id}</p>
 					<_Divider className="mt-2 mb-2" />
 					<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
 						<Button

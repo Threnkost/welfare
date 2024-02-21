@@ -23,11 +23,10 @@ const ProfileSidebar = () => {
     return (
         <aside className="flex flex-col justify-between bg-slate-200 w-2/12">
             <div>
-               <Link to="/profile"> <_Foo title="Bilgilerim" icon={faUser} checked /></Link>
+                <Link to="/profile"> <_Foo title="Bilgilerim" icon={faUser} checked /></Link>
                 <Link to="/profile/history" ><_Foo title="Geçmişim" icon={faClock} /></Link>
                 <Link to="/profile/orders"><_Foo title="İlanlarım" icon={faList} /></Link>
                 <Link to="/profile/favourites"><_Foo title="Favorilerim" icon={faHeart} /></Link>
-                <_Foo title="Bağış Yap" icon={faCircleDollarToSlot} />
             </div>
 
             <div className="flex items-center justify-between bg-slate-300 w-full p-2 pr-5">
