@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faAngleDown, faRightToBracket, faCartShopping, faClose, faMinus, faHeart, faKey, faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Button, TextField, Badge, Autocomplete } from "@mui/material";
 import logo from '../../assets/logo.png';
+import logo2 from '../../assets/logo3.png';
 import { Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -99,13 +100,16 @@ const Navbar = () => {
     return (
         <>
             <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between z-20 shadow-md">
+                <div className="rounded-lg overflow-hidden">
                 <Link to="/">
                     <img
-                        src={logo}
+                        src={logo2}
                         alt=""
                         width="72"
+                        className="rounded-3xloverflow-hidden"
                     />
                 </Link>
+                </div>
                 <div className="flex">
                     <Autocomplete
                         value={category}
