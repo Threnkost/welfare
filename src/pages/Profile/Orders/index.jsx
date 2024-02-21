@@ -57,15 +57,17 @@ const Orders = () => {
             if(response.data.success){
             response.data.adverts.forEach((advert) => {
                 data.push({
-                    product: advert.images[0],
+                    product: advert.title,
                     productName: advert.category + "/" + advert.tag,
                     seller: advert.owner.username,
                     date: "??",
                     fee: advert.createTime,
-
+                    img: advert.images[0],
                 })
             })
         }
+        console.log(data);
+        if(response.data.adverts.length!=0) setIsEmpty(false);
             
       
         })
@@ -80,36 +82,36 @@ const Orders = () => {
     
 
     
-    var data = [
-        {
-            product: 'asd',
-            productName: 'Ürün 1',
-            seller: 'Bilinmiyor',
-            date: '1 Ocak 2024',
-            fee: '999,99'
-        },
-        {
-            product: 'asd',
-            productName: 'Ürün 2',
-            seller: 'Bilinmiyor',
-            date: '1 Ocak 2024',
-            fee: '999,99'
-        },
-        {
-            product: 'asd',
-            productName: 'Ürün 3',
-            seller: 'Bilinmiyor',
-            date: '1 Ocak 2024',
-            fee: '999,99'
-        }
-    ]
+    // var data = [
+    //     {
+    //         product: 'asd',
+    //         productName: 'Ürün 1',
+    //         seller: 'Bilinmiyor',
+    //         date: '1 Ocak 2024',
+    //         fee: '999,99'
+    //     },
+    //     {
+    //         product: 'asd',
+    //         productName: 'Ürün 2',
+    //         seller: 'Bilinmiyor',
+    //         date: '1 Ocak 2024',
+    //         fee: '999,99'
+    //     },
+    //     {
+    //         product: 'asd',
+    //         productName: 'Ürün 3',
+    //         seller: 'Bilinmiyor',
+    //         date: '1 Ocak 2024',
+    //         fee: '999,99'
+    //     }
+    // ]
     var columns = [
         {
             title: 'Ürün',
             dataIndex: 'product',
             key: 'product',
             render: () => {
-                return <div className="border border-slate-500 rounded w-32 h-32"></div>
+                return <img src={img} className="border border-slate-500 rounded w-32 h-32"/>
             }
         },
         {

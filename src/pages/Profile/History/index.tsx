@@ -23,7 +23,7 @@ interface _ItemProps {
     points: number;
     seller: string;
     status: string;
-    
+    img: string;
 }
 
 
@@ -32,7 +32,7 @@ interface _ItemProps {
 const _Item = (props: _ItemProps) => {
     return (
         <div className="flex justify-between w-full items-center bg-white shadow-md p-5 rounded">
-            <div className="w-24 h-24 rounded border border-black"></div>
+            <img src={props.img} className="w-24 h-24 rounded border border-black"/>
             <div className="flex flex-col h-full justify-between p-2">
                 <p className="font-bold text-xl text-blue-950">Product</p>
                 <p>{props.title}</p>
@@ -92,6 +92,7 @@ const History = () => {
           .then(response => {
             console.log(response);
              setAdverts(response.data.adverts)
+             if(response.data.adverts.length!=0)
                 setIsEmpty(false);
             
 
@@ -149,6 +150,7 @@ const History = () => {
                                                 "active"
                                             )
                                         }
+                                        img={dt.images[0]}
                                     />
                                     ))}
                                 </div>
