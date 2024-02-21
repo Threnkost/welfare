@@ -8,8 +8,8 @@ const GoogleMapComponent = ({ latitude, longitude }) => {
   };
 
   const defaultCenter = {
-    lat: latitude ,
-    lng: longitude ,
+    lat: {latitude} ,
+    lng: {longitude} ,
   };
 
   return (
