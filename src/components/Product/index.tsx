@@ -16,6 +16,8 @@ import axios from "axios";
 import point_ill from "../../assets/token.png";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const _Divider = styled("div")(
 	(props) => `
@@ -159,6 +161,7 @@ const Product = (props: ProductProps) => {
 								>
 									Join
 								</Button>
+
 								{!props.fav ? (
 									<_StyledButton
 										bgColor={
@@ -196,8 +199,43 @@ const Product = (props: ProductProps) => {
 										Fav
 									</_StyledButton>
 								) : null}
+								{props.fav ? (
+									<Button
+									onClick={() => {
+										axios
+											.delete(
+												`http://app.welfare.ws/api/v1/advert/favoriteAdverts/${props.id}`,
+												{
+													headers: {
+														Authorization: `Bearer ${localStorage.getItem(
+															"token"
+														)}`,
+													},
+												}
+											)
+											.then((response) => {
+												toast.success(
+													response.data.message
+												);
+												setDisplay(false);
+											})
+											.catch((error) => {
+												toast.error(
+													error.response.data.message
+												);
+											});
+									}}
+									className=" mt-1"
+									variant="outlined"
+									color="error"
+									fullWidth
+								>
+									REMOVE
+								</Button>
+								) : null}
 							</div>
 							<Chip label={props.tag} />
+							
 						</>
 					) : (
 						<>
@@ -257,8 +295,9 @@ const Product = (props: ProductProps) => {
 								color="error"
 								fullWidth
 							>
-								Leave
+								Withdraw
 							</Button>
+
 							<Divider />
 							<Chip label={props.tag} />
 						</>

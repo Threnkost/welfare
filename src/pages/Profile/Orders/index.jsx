@@ -37,7 +37,7 @@ const _Foo = () => {
     );
 }
 
-    const tokenString = localStorage.getItem('token');
+
     
 
     
@@ -47,7 +47,7 @@ const _Foo = () => {
 const Orders = () => {
     
     const [isEmpty,setIsEmpty] = useState(true);
-   
+    const tokenString = localStorage.getItem("token"); 
         axios.get("/api/v1/advert/getAdvert", {
             headers: {
                 'Authorization': `Bearer ${tokenString}`
@@ -76,35 +76,6 @@ const Orders = () => {
             
         });
     
-      
-    
-    
-    
-
-    
-    // var data = [
-    //     {
-    //         product: 'asd',
-    //         productName: 'Ürün 1',
-    //         seller: 'Bilinmiyor',
-    //         date: '1 Ocak 2024',
-    //         fee: '999,99'
-    //     },
-    //     {
-    //         product: 'asd',
-    //         productName: 'Ürün 2',
-    //         seller: 'Bilinmiyor',
-    //         date: '1 Ocak 2024',
-    //         fee: '999,99'
-    //     },
-    //     {
-    //         product: 'asd',
-    //         productName: 'Ürün 3',
-    //         seller: 'Bilinmiyor',
-    //         date: '1 Ocak 2024',
-    //         fee: '999,99'
-    //     }
-    // ]
     var columns = [
         {
             title: 'Ürün',
