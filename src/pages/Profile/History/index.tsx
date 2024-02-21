@@ -114,7 +114,7 @@ const History = () => {
             <div className="w-full h-full flex bg-slate-100">
                 <ProfileSidebar />
                 <div className="flex flex-col gap-5 w-11/12 p-4 px-20">
-                    <h1 className="text-2xl text-blue-950 font-bold tracking-widest">Profilim / Geçmişim</h1>
+                    <h1 className="text-2xl text-blue-950 font-bold tracking-widest">My Profile / History</h1>
                     <Divider />
                     {
                         isEmpty
@@ -122,12 +122,12 @@ const History = () => {
                                 <div className="flex flex-col w-full items-center">
                                     <img src={illustration1} alt="" width="512" />
                                     <h1 className="text-3xl text-blue-950 font-bold mb-4 tracking-wider">
-                                        Henüz hiç alışveriş yapmamışsınız
+                                    You haven't made any purchases yet
                                     </h1>
                                     <Button
                                         variant="outlined"
                                     >
-                                        Alışverişe Çık
+                                        Browse Ads
                                     </Button>
                                 </div>
                             )

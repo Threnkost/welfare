@@ -447,7 +447,6 @@ const Home = () => {
 							{adverts.map((item, index) => (
 								<Product
 									id={item._id}
-									title={item.title}
 									owner={item.owner}
 									point={item.point}
 									description={item.description}
@@ -470,7 +469,6 @@ const Home = () => {
 								<Product
 									fav
 									id={item._id}
-									title={item.title}
 									owner={item.owner}
 									point={item.point}
 									description={item.description}

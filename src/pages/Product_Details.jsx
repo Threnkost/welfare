@@ -351,11 +351,12 @@ const Product_Details = () => {
           </Category>
           <DealerDetails>
             <DetailBox>
-              <span style={{ fontWeight: 'bold', fontSize: '1.5vw', marginBottom: '5px' }}>{heading}</span>
-              <span style={{ fontSize: '1.15vw' }}>Satıcı:{name}</span>
+            <span style={{ fontSize: '1.15vw' }}>Ads Owner:</span>
+              <span style={{ fontWeight: 'bold', fontSize: '1.5vw', marginBottom: '5px' }}>{name}</span>
+
             </DetailBox>
             <LocationBox>
-              <CiLocationOn size='3vw' /><span style={{ margin: '0px 10px', fontSize: '1.25vw' }}> Konum<br></br>
+              <CiLocationOn size='3vw' /><span style={{ margin: '0px 10px', fontSize: '1.25vw' }}> Location<br></br>
                 <span style={{ fontWeight: 'bold', fontSize: '1.25vw', marginTop: '5px' }}>{city}</span>
               </span>
             </LocationBox>

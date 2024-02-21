@@ -113,7 +113,7 @@ const Favorites = () => {
             <div className="w-full h-full flex bg-slate-100">
                 <ProfileSidebar />
                 <div className="flex flex-col gap-5 w-11/12 p-4 px-20">
-                    <h1 className="text-2xl text-blue-950 font-bold tracking-widest">Profilim / Geçmişim</h1>
+                    <h1 className="text-2xl text-blue-950 font-bold tracking-widest">My Profile / History</h1>
                     <Divider />
                     {
                         isEmpty

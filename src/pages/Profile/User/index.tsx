@@ -67,8 +67,9 @@ const _User = () => {
             <Navbar />
             <div className="w-full h-full flex bg-slate-100">
                 <ProfileSidebar />
+                <h1 className="text-2xl text-blue-950 font-bold tracking-widest">My Profile / History</h1>
                 <div className="w-full grid grid-cols-2">
-                    <h1 className="col-span-2">Profilim / Bilgilerim</h1>
+                    
                     <div className="flex flex-col justify-center gap-4">
                         <div className="flex items-center gap-5">
                             <img src={illustration3} alt="" width="96" />
@@ -79,15 +80,15 @@ const _User = () => {
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
-                                Puanınız
+                                My Rating
                                 <Rating value={4} readOnly />
                             </div>
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
-                                Kayıt Tarihi
-                                <p>01/01/1970</p>
+                            Date of registration
+                                <p>21/02/2024</p>
                             </div>
                             <div className="flex flex-col justify-center bg-white p-4 rounded-md">
-                                Krediniz
+                                My Credit
                                 <p>{userData.points}</p>
                             </div>
                         </div>
