@@ -100,14 +100,16 @@ const Navbar = () => {
     return (
         <>
             <div className="w-full flex items-center h-20 p-4 pr-8 bg-white justify-between z-20 shadow-md">
+                <div className="rounded-lg overflow-hidden">
                 <Link to="/">
                     <img
                         src={logo2}
                         alt=""
                         width="72"
-                        className="border-round-2xl overflow-hidden"
+                        className="rounded-lg overflow-hidden"
                     />
                 </Link>
+                </div>
                 <div className="flex">
                     <Autocomplete
                         value={category}
