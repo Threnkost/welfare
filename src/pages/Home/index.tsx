@@ -38,6 +38,13 @@ import { useNavigate } from "react-router";
 import { usePendingAdverts } from "../../Services/pendingAdverts";
 import { Chip } from "@mui/material";
 import { useSelector } from "react-redux";
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import ListSubheader from '@mui/material/ListSubheader';
+import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
+import { Link } from "react-router-dom";
 
 interface FooProps {
 	title: string;
@@ -107,8 +114,8 @@ const _Featured = (props: _FeaturedProps) => {
 					src={props.item.images[0]}
 					style={{ width: 160, height: 90 }}
 				/>
-				<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
-				<p style={{maxWidth: 200, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.item.description}</p>
+				<p style={{ maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{props.title}</p>
+				<p style={{ maxWidth: 200, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{props.item.description}</p>
 				<p>{props.point} ₺</p>
 				<Button
 					variant="outlined"
@@ -229,8 +236,8 @@ const Home = () => {
 	const [adverts, setAdverts] = useState<Array<any>>([]);
 	const [favourites, setFavourites] = useState<Array<any>>([]);
 	const [featured, setFeatured] = useState<Array<any>>([]);
-
-    const as = useSelector(state => state.user)
+	const [items, setItems] = useState([]);
+	const as = useSelector(state => state.user)
 
 	//! Refactor it later, Fix it.
 	const [pending, setPending] = useState<Array<any>>([]);
@@ -259,6 +266,25 @@ const Home = () => {
 				console.log(error);
 			});
 
+		axios.get("http://app.welfare.ws/api/v1/advert/filteredAdverts", {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("token")}`,
+			},
+		})
+			.then((response) => {
+				// API'den gelen veriyi items state'ine uygun şekilde dönüştür
+				const adverts = response.data.adverts.map(advert => ({
+					_id: advert._id, // İlanın benzersiz ID'si
+					img: advert.images[0], // İlk resim URL'si
+					title: advert.title, // İlan başlığı
+					point: advert.point, // Puan bilgisi
+				}));
+				setItems(adverts); // items state'ini güncelle
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+
 		axios
 			.get("http://app.welfare.ws/api/v1/advert/favoriteAdverts/7", {
 				headers: {
@@ -274,7 +300,7 @@ const Home = () => {
 				console.error(error);
 			});
 
-			axios
+		axios
 			.get("/api/v1/advert/advertStatus/participatedAdverts", {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -294,26 +320,32 @@ const Home = () => {
 			<Navbar />
 			<Content>
 				<div className="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 gap-4">
-					<div className="lg:col-span-3 lg:row-span-3 flex">
-						<Button
-							variant="outlined"
-							onClick={() => setPage(page - 1)}
-						>
-							<FontAwesomeIcon icon={faArrowLeft} />
-						</Button>
-						{/*<_Slider featured={featured} page={page} /> */}
-						{featured.length >= 6 ? (
-							<_Slider featured={featured} page={page} />
-						) : null}
-
-						<Button
-							variant="outlined"
-							onClick={() => setPage(page + 1)}
-						>
-							<FontAwesomeIcon icon={faArrowRight} />
-						</Button>
+					<div className="lg:col-span-3 lg:row-span-3 flex" style={{ maxHeight: 550, overflow: 'auto' }}>
+						<ImageList variant="masonry" cols={3} gap={8}>
+							{items.map((item, index) => (
+								<ImageListItem key={index}>
+									{/* Link komponentini kullanarak /product/:id sayfasına yönlendir */}
+									<Link to={`/product/${item._id}`}>
+										<img
+											srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+											src={`${item.img}?w=248&fit=crop&auto=format`}
+											alt={item.title}
+											loading="lazy"
+										/>
+										<ImageListItemBar
+                    title={item.point + " Points"} // " Points" eklendi
+                    position="top" // Bar'ı resmin üstüne yerleştir
+                    sx={{
+                        background:
+                            'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                            'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                    }}
+                />
+									</Link>
+								</ImageListItem>
+							))}
+						</ImageList>
 					</div>
-
 					<div className="lg:col-span-2 lg:row-span-1 flex flex-col bg-white rounded-md p-4 gap-4 box-border justify-center">
 						<h1 className="font-bold text-2xl text-blue-950">
 							Categories
