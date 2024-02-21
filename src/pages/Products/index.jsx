@@ -89,7 +89,7 @@ const Products = () => {
     }, [])
 
     return (
-        <div className="flex flex-col h-screen w-screen">
+        <div className="flex flex-col h-screen w-screen bg-slate-100">
             <Navbar />
             <div className="flex flex-wrap gap-4 overflow-auto items-center justify-center w-full h-full">
                 {
