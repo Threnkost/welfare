@@ -138,24 +138,3 @@ export const pendingAdverts = () => {
   
 }
 
-export const useFavorite = (id) => {
-    const token = localStorage.getItem("token");
-    const [bool,setBool] = useState(false);
-
-
-    axios.get('/api/v1/advert/favoriteAdverts/10',{
-        headers: {
-          'Authorization': `Bearer ${token}` 
-        }
-      })
-      .then(response => {
-         response.data.favoriteAdverts.map((dt,key) => {
-            if(dt._id==id){ setBool(true); console.log("true gordum");}
-            
-         })
-      }).catch(error => {
-        
-      });
-
-      return bool;
-}

@@ -27,6 +27,7 @@ import Product_Details from './pages/Product_Details'
 import UserPage from './pages/User'
 import endpoints from './Constants/endpoints'
 import Edit_Product from './pages/Edit_Product'
+import Favorites from './pages/Favorites'
 
 
 const router = createBrowserRouter([
@@ -43,7 +44,8 @@ const router = createBrowserRouter([
         element: <Orders />
     },
     {
-        path: "/profile/favourites"
+        path: "/profile/favourites",
+        element: <Favorites />
     },
     {
         path: "/profile/history",
