@@ -1246,24 +1246,20 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:col-span-3 {
-    grid-column: span 3 / span 3;
-  }
-
   .lg\:col-span-2 {
     grid-column: span 2 / span 2;
   }
 
-  .lg\:row-span-2 {
-    grid-row: span 2 / span 2;
-  }
-
-  .lg\:row-span-3 {
-    grid-row: span 3 / span 3;
+  .lg\:col-span-3 {
+    grid-column: span 3 / span 3;
   }
 
   .lg\:row-span-1 {
     grid-row: span 1 / span 1;
+  }
+
+  .lg\:row-span-3 {
+    grid-row: span 3 / span 3;
   }
 
   .lg\:grid-cols-2 {
@@ -1274,12 +1270,12 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .lg\:grid-cols-6 {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .lg\:grid-rows-3 {

@@ -101,7 +101,7 @@ const Product = (props: ProductProps) => {
 	};
 
 	return (
-		<div className="flex flex-col rounded bg-white shadow-md p-2 items-center">
+		<div className="flex flex-col rounded bg-white shadow-md shadow-slate-300 p-2 items-center">
 			{!props.pending ? (
 				<>
 					<img className="mb-2 rounded" src={props.img} alt="" style={{width: 160, height: 90}} />
@@ -109,7 +109,8 @@ const Product = (props: ProductProps) => {
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
 					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.owner.username}</p>
-					<p className="font-bold text-blue-950">{props.point} Points</p>
+					<_Divider className="mt-2 mb-2" />
+					<p className="font-bold text-blue-950 text-lg">{props.point} Pts</p>
 					<_Divider className="mt-2 mb-2" />
 					<div className="flex flex-col gap-2 justify-evenly items-center w-full mb-2">
 						<Button
