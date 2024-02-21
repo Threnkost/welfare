@@ -170,12 +170,6 @@ const Navbar = () => {
                                 </Tooltip>
                             )
                     }
-
-                    <Badge color="secondary" badgeContent={99}>
-                        <button className="text-lg text-blue-900" onClick={() => setCartVisible(!isCartVisible)} >
-                            <FontAwesomeIcon className="w-6 h-6" icon={faCartShopping} />
-                        </button>
-                    </Badge>
                 </div>
             </div>
 

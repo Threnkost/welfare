@@ -104,7 +104,7 @@ const Product = (props: ProductProps) => {
 		<_ProductPaper>
 			{!props.pending ? (
 				<>
-					<img className="mb-2" src={props.img} alt="" width="128" />
+					<img className="mb-2" src={props.img} alt="" style={{width: 160, height: 90}} />
 					<Rating value={4} readOnly />
 					<p>{props.title}</p>
 					<p>{props.description}</p>
@@ -166,9 +166,9 @@ const Product = (props: ProductProps) => {
 				</>
 			) : (
 				<>
-					<img className="mb-2" src={props.img} alt="" width="128" />
-					<p>{props.title}</p>
-					<p>{props.description}</p>
+					<img className="mb-2" src={props.img} alt="" style={{width: 160, height: 90}} />
+					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.title}</p>
+					<p style={{maxWidth: 100, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{props.description}</p>
 					<Chip label="Pending" color="warning" />
 					<Divider />
 					<Chip label={props.tag} />

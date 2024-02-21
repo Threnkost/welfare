@@ -27,6 +27,8 @@ import animal from "../../assets/animal.png";
 import food from "../../assets/food.png";
 import books from "../../assets/books.png";
 import cosmetics from "../../assets/cosmetics.png";
+import musical from "../../assets/musical.png";
+import baby from "../../assets/baby.png";
 
 import asd from "../../assets/Allura - Giant Phone.png";
 import asd2 from "../../assets/Allura - Feedback Session.png";
@@ -34,6 +36,7 @@ import { useRef, useEffect, useState, MouseEventHandler } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { usePendingAdverts } from "../../Services/pendingAdverts";
+import { Chip } from "@mui/material";
 
 interface FooProps {
 	title: string;
@@ -77,15 +80,15 @@ const Product_Foo_Button = styled.button`
 `;
 
 interface _FeaturedProps {
-    id: string;
+	id: string;
 	title: string;
 	seller: string;
 	point: number;
+	item: any;
 }
 
 const _Featured = (props: _FeaturedProps) => {
-
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	return (
 		<div className="flex flex-col gap-2">
@@ -98,15 +101,22 @@ const _Featured = (props: _FeaturedProps) => {
 			</div>
 
 			<div className="bg-white rounded flex flex-col p-4 items-center gap-2">
-				<div className="w-24 h-24 border border-black rounded "></div>
+				<img className="w-24 h-24 rounded" src={props.item.images[0]} style={{width: 160, height: 90}} />
 				<p>{props.title}</p>
-				<p>{props.seller}</p>
-				<p>{props.point}</p>
-				<Button variant="outlined" fullWidth onClick={() => {
-                    navigate(`/product/${props.id}`)
-                }}>
+				<p>{props.item.description}</p>
+				<p>{props.point} ₺</p>
+				<Button
+					variant="outlined"
+					fullWidth
+					onClick={() => {
+						navigate(`/product/${props.id}`);
+					}}
+				>
 					View
 				</Button>
+
+				<Divider />
+				<Chip label={props.item.tag} />
 			</div>
 		</div>
 	);
@@ -123,12 +133,12 @@ const _Slider = (props: { page: any; featured: any }) => {
 			setWidth(ref.current.offsetWidth);
 			setHeight(ref.current.offsetHeight);
 		}
-        console.log("slider ", props.featured)
+		console.log("slider ", props.featured);
 	}, []);
 
 	return (
 		<div
-			className="w-full h-full bg-slate-400 rounded overflow-hidden"
+			className="w-full h-full bg-transparent rounded overflow-hidden"
 			ref={ref}
 		>
 			<div className="w-full h-full relative">
@@ -139,16 +149,18 @@ const _Slider = (props: { page: any; featured: any }) => {
 						height,
 						left: -(width * props.page),
 					}}
-					className="absolute flex items-center justify-center bg-red-200 gap-10"
+					className="absolute flex items-center justify-center gap-10"
 				>
 					<_Featured
-                        id={props.featured[0]._id}
+						item={props.featured[0]}
+						id={props.featured[0]._id}
 						title={props.featured[0].title}
 						seller={props.featured[0].seller}
 						point={props.featured[0].point}
 					/>
 					<_Featured
-                        id={props.featured[1]._id}
+						item={props.featured[0]}
+						id={props.featured[1]._id}
 						title={props.featured[1].title}
 						seller={props.featured[1].seller}
 						point={props.featured[1].point}
@@ -161,16 +173,18 @@ const _Slider = (props: { page: any; featured: any }) => {
 						height,
 						left: -(width * (props.page - 1)),
 					}}
-					className="absolute flex items-center justify-center bg-blue-200 gap-10"
+					className="absolute flex items-center justify-center gap-10"
 				>
 					<_Featured
-                        id={props.featured[2]._id}
+						item={props.featured[0]}
+						id={props.featured[2]._id}
 						title={props.featured[2].title}
 						seller={props.featured[2].seller}
 						point={props.featured[2].point}
 					/>
 					<_Featured
-                        id={props.featured[3]._id}
+						item={props.featured[0]}
+						id={props.featured[3]._id}
 						title={props.featured[3].title}
 						seller={props.featured[3].seller}
 						point={props.featured[3].point}
@@ -183,16 +197,18 @@ const _Slider = (props: { page: any; featured: any }) => {
 						height,
 						left: -(width * (props.page - 2)),
 					}}
-					className="absolute flex items-center justify-center bg-green-200 gap-10"
+					className="absolute flex items-center justify-center gap-10"
 				>
 					<_Featured
-                        id={props.featured[4]._id}
+						item={props.featured[0]}
+						id={props.featured[4]._id}
 						title={props.featured[4].title}
 						seller={props.featured[4].seller}
 						point={props.featured[4].point}
 					/>
 					<_Featured
-                        id={props.featured[5]._id}
+						item={props.featured[0]}
+						id={props.featured[5]._id}
 						title={props.featured[5].title}
 						seller={props.featured[5].seller}
 						point={props.featured[5].point}
@@ -212,9 +228,13 @@ const Home = () => {
 	//! Refactor it later, Fix it.
 	const [pending, setPending] = useState<Array<any>>([]);
 
-    console.log(featured);
+	console.log(featured);
 
 	useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            return;
+        }
+
 		axios
 			.get("http://app.welfare.ws/api/v1/advert/filteredAdverts", {
 				headers: {
@@ -225,7 +245,7 @@ const Home = () => {
 				console.log(response);
 				const data = response.data;
 				setAdverts(data.adverts);
-                console.log("slice", data.adverts.slice(0, 6));
+				console.log("slice", data.adverts.slice(0, 6));
 				setFeatured(data.adverts.slice(0, 6));
 			})
 			.catch((error) => {
@@ -276,13 +296,11 @@ const Home = () => {
 						>
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
-                        {/*<_Slider featured={featured} page={page} /> */}
-                        {
-                            featured.length > 0
-                            ? <_Slider featured={featured} page={page} />
-                            : null
-                        }
-						
+						{/*<_Slider featured={featured} page={page} /> */}
+						{featured.length > 0 ? (
+							<_Slider featured={featured} page={page} />
+						) : null}
+
 						<Button
 							variant="outlined"
 							onClick={() => setPage(page + 1)}
@@ -306,13 +324,29 @@ const Home = () => {
 								src={monitor}
 								title="Electronics"
 							/>
+							<Foo category="Hobby" src={pencil} title="Hobby" />
+							<Foo
+								category="Baby Products"
+								src={baby}
+								title="Baby Products"
+							/>
+							<Foo
+								category="Home Furnishings"
+								src={food}
+								title="Home Furnishings"
+							/>
+							<Foo
+								category="Musical Instruments"
+								src={musical}
+								title="Musical Instruments"
+							/>
 						</div>
 					</div>
 					<div className="flex flex-col bg-white p-4 gap-4 box-border rounded-md">
 						<h1 className="font-bold text-2xl text-blue-950">
 							Pending
 						</h1>
-						<div className="flex justify-between overflow-auto">
+						<div className="flex overflow-auto">
 							{pending.map((item, index) => (
 								<Product
 									id={item._id}
@@ -334,14 +368,14 @@ const Home = () => {
 							className="w-8 h-8 mr-10 text-blue-950"
 							icon={faPhone}
 						/>
-						<p className="text-lg">Lorem ipsum dolor sit amet</p>
+						<p className="text-lg">Visit our mobile app</p>
 					</div>
 					<div className="bg-white rounded-md p-4 flex items-center">
 						<FontAwesomeIcon
 							className="w-8 h-8 mr-10 text-blue-950"
 							icon={faLocationDot}
 						/>
-						<p className="text-lg">Lorem ipsum dolor sit amet</p>
+						<p className="text-lg"></p>
 					</div>
 					<div className="bg-white rounded-md p-4 flex items-center">
 						<FontAwesomeIcon
@@ -401,45 +435,52 @@ const Home = () => {
 						</div>
 					</div>
 				</div>
-				<h1 className="font-bold text-3xl text-blue-950 mt-8">
-					Explore
-				</h1>
-				<Divider />
-				<div className="flex gap-4 items-center justify-between overflow-auto">
-					{adverts.map((item, index) => (
-						<Product
-							id={item._id}
-							title={item.title}
-							owner={item.owner}
-							point={item.point}
-							description={item.description}
-							img={item.images[0]}
-							tag={item.tag}
-						/>
-					))}
-					<Button variant="outlined">Load More</Button>
-				</div>
 
-				<h1 className="font-bold text-3xl text-blue-950 mt-8">
-					Favourites
-				</h1>
-				<Divider />
-				<div className="flex items-center gap-4 overflow-auto">
-					{favourites.map((item, index) => (
-						<Product
-							fav
-							id={item._id}
-							title={item.title}
-							owner={item.owner}
-							point={item.point}
-							description={item.description}
-							img={item.images[0]}
-							tag={item.tag}
-						/>
-					))}
-					<Button variant="outlined">Load More</Button>
-				</div>
-				<Divider />
+				{localStorage.getItem("token") ? (
+					<>
+						<h1 className="font-bold text-3xl text-blue-950 mt-8">
+							Explore
+						</h1>
+						<Divider />
+						<div className="flex gap-4 items-center justify-between overflow-auto">
+							{adverts.map((item, index) => (
+								<Product
+									id={item._id}
+									title={item.title}
+									owner={item.owner}
+									point={item.point}
+									description={item.description}
+									img={item.images[0]}
+									tag={item.tag}
+								/>
+							))}
+						</div>
+					</>
+				) : null}
+
+				{localStorage.getItem("token") ? (
+					<>
+						<h1 className="font-bold text-3xl text-blue-950 mt-8">
+							Favourites
+						</h1>
+						<Divider />
+						<div className="flex items-center gap-4 overflow-auto">
+							{favourites.map((item, index) => (
+								<Product
+									fav
+									id={item._id}
+									title={item.title}
+									owner={item.owner}
+									point={item.point}
+									description={item.description}
+									img={item.images[0]}
+									tag={item.tag}
+								/>
+							))}
+						</div>
+						<Divider />
+					</>
+				) : null}
 			</Content>
 		</Page>
 	);
