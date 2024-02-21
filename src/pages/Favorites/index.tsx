@@ -23,7 +23,7 @@ interface _ItemProps {
     points: number;
     seller: string;
     status: string;
-    
+    img: string;
 }
 
 
@@ -32,7 +32,7 @@ interface _ItemProps {
 const _Item = (props: _ItemProps) => {
     return (
         <div className="flex justify-between w-full items-center bg-white shadow-md p-5 rounded">
-            <div className="w-24 h-24 rounded border border-black"></div>
+            <img src={props.img} className="w-24 h-24 rounded border border-black"/>
             <div className="flex flex-col h-full justify-between p-2">
                 <p className="font-bold text-xl text-blue-950">Product</p>
                 <p>{props.title}</p>
@@ -84,12 +84,7 @@ const Favorites = () => {
 
     useEffect(() => {
       
-        
-    }, [])
-
-   
-    
-    axios
+        axios
     .get("http://app.welfare.ws/api/v1/advert/favoriteAdverts/7", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -98,13 +93,18 @@ const Favorites = () => {
     .then((response) => {
         const data = response.data;
         setFavourites(data.favoriteAdverts);
-        console.log("favourites", favourites);
-        
+        console.log("favourites", data);
+      if(data.favoriteAdverts.length!=0)  
         setIsEmpty(false);
     })
     .catch((error) => {
         console.error(error);
     });
+    }, [])
+
+   
+    
+    
     
 
     return (
@@ -121,7 +121,7 @@ const Favorites = () => {
                                 <div className="flex flex-col w-full items-center">
                                     <img src={illustration1} alt="" width="512" />
                                     <h1 className="text-3xl text-blue-950 font-bold mb-4 tracking-wider">
-                                        Henüz hiç alışveriş yapmamışsınız
+                                        You don't have any favourite advert
                                     </h1>
                                     <Button
                                         variant="outlined"
@@ -149,6 +149,7 @@ const Favorites = () => {
                                                 "active"
                                             )
                                         }
+                                        img={dt.images[0]}
                                     />
                                     ))}
                                 </div>
